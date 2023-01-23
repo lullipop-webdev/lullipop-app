@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+.custom-img {
+    background-image: url('https://storage.googleapis.com/lullipop-image-dump/003%20Petra%20Photo%20Shoots/Lullipop_Jeans/JEZ_1642.jpg');
+}
+
