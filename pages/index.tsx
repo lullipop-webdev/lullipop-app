@@ -4,6 +4,6 @@ import Hero from '@/components/Hero'
 
 export default function index() {
   return (
-    <Hero heading="Denim" message='Trending Collection' />
+    <Hero />
   )
 }
