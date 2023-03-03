@@ -1,73 +1,130 @@
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { CartContext } from '../context/shopContext';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { HiShoppingBag } from 'react-icons/hi'
+import MiniCart from './MiniChart'
+import { HiSun, HiMoon } from 'react-icons/hi';
+import LulliLogo from '../assets/lulli-pink-logo.png'
+import Image from 'next/image';
+import { useTheme } from 'next-themes';
+import { useRouter } from 'next/router';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [color, setColor] = useState('transparent');
   const [textColor, setTextColor] = useState('white');
+  const [mounted, setMounted] = useState(false);
+  const { cart, cartOpen, setCartOpen } = useContext(CartContext)
+
+  let cartQuantity = 0
+  cart.map((item: any) => {
+    return (cartQuantity += item?.variantQuantity)
+  })
 
   const handleNav = () => {
     setNav(!nav);
   };
 
-  useEffect(() => {
-    const changeColor = () => {
-      if (window.scrollY >= 90) {
-        setColor('#ffffff');
-        setTextColor('#000000');
-      } else {
-        setColor('transparent');
-        setTextColor('#ffffff');
-      }
-    };
-    window.addEventListener('scroll', changeColor);
-  }, []);
+  const {systemTheme , theme, setTheme} = useTheme();
+
+  const renderThemeChanger= () => {
+    if(!mounted) return null;
+    const currentTheme = theme === "system" ? systemTheme : theme ;
+
+    if(currentTheme ==="dark"){
+      return (
+        <HiSun size="2rem" className="text-pink-400 " role="button" onClick={() => setTheme('light')} />
+      )
+    }
+
+    else {
+      return (
+        <HiMoon size="2rem" className="text-pink-400 " role="button" onClick={() => setTheme('dark')} />
+      )
+    }
+  };
+
+  useEffect(() =>{
+    setMounted(true);
+  },[])
+
+  const router = useRouter();
+
+  const pathname = router.pathname;
+  let determiner = false;
+
+  if(pathname === "/") {
+    determiner = true;
+  }
+  // useEffect(() => {
+  //   const changeColor = () => {
+  //     if (window.scrollY >= 90) {
+  //       setColor('black');
+  //       setTextColor('#ffffff');
+  //     } else {
+  //       setColor('transparent');
+  //       setTextColor('#ffffff');
+  //     }
+  //   };
+  //   window.addEventListener('scroll', changeColor);
+  // }, []);
 
   return (
     <div
-      style={{ backgroundColor: `${color}` }}
-      className='fixed left-0 top-0 w-full z-10 ease-in duration-300'
+      style={{backgroundColor: (determiner) ? `${color}` : `none`}}
+      className='bg-white dark:bg-black  w-full z-10 ease-in duration-300'
     >
-      <div className='flex justify-between items-center p-4 text-white'>
+      <div className='flex justify-between items-center p-4 text-pink-400 xs:justify-start'>
         <div className='flex items-center p-4'>
           <Link href='/' className='mr-4'>
-            <h1 style={{ color: `${textColor}` }} className='font-bold text-4xl'>
-              Lullipop
-            </h1>
+            
+            <Image src={LulliLogo} alt="Lullipop" width={160} height={90}/>
           </Link>
           {/* Mobile Button */}
           <div onClick={handleNav} className='block sm:z-10'>
             {nav ? (
-              <AiOutlineClose size={20} style={{ color: `${textColor}` }} />
+              <AiOutlineClose size={20}/>
             ) : (
-              <AiOutlineMenu size={20} style={{ color: `${textColor}` }} />
+              <AiOutlineMenu size={20}  />
             )}
-          </div>
-          <div className="flex px-32 min-w-full lg:min-w-[500px]">
-              <input type="text" placeholder='Search' className="bg-pink text-black outline-8 border-8 border-white rounded-3xl px-8" />
-          </div>
+          </div>  
         </div>
+        {/* <div className="h-full flex px-32 min-w-full lg:min-w-[500px] lg:visible sm:invisible">
+              <input type="text" placeholder='Search' style={{backgroundColor: (determiner) ? `${color}` : `none`}} className="bg-white dark:bg-black text-pink-400 border-2 border-pink-400 rounded-2xl px-8" />
+        </div> */}
         <div className='max-w-[1240px] flex items-center'>
-          <HiShoppingBag size="2rem" />
+          <div className='flex flex-row space-x-5'>
+            <a 
+              className="text-md font-bold cursor-pointer"
+              onClick={() => setCartOpen(!cartOpen)}
+            >
+              <HiShoppingBag size="2rem" />
+              
+            </a>
+            ({cartQuantity})
+            {renderThemeChanger()}
+            <MiniCart cart={cart} />
+          </div>
         </div>
+        
+        
         {/* Mobile Menu */}
         <div
           className={
             nav
-              ? 'absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center w-full h-screen bg-black text-center ease-in duration-300'
-              : 'absolute top-0 left-[-100%] right-0 bottom-0 flex justify-center items-center w-full h-screen bg-black text-center ease-in duration-300'
+              ? 'absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center w-full h-screen bg-white dark:bg-black text-center ease-in duration-300'
+              : 'absolute top-0 left-[-100%] right-0 bottom-0 flex justify-center items-center w-full h-screen bg-white dark:bg-black text-center ease-in duration-300'
           }
         >
           <ul>
-            <li onClick={handleNav} className='p-4 text-4xl hover:text-gray-500'>
+            <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
               <Link href='/'>Lullipop</Link>
             </li>
-            <li onClick={handleNav} className='p-4 text-4xl hover:text-gray-500'>
-              <Link href='/#gallery'>Shop</Link>
+            <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
+              <Link href='/products'>Shop</Link>
             </li>
-            <li onClick={handleNav} className='p-4 text-4xl hover:text-gray-500'>
+            <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
               <Link href='/work'>Lullifit</Link>
             </li>
           </ul>

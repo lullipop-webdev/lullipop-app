@@ -1,26 +1,43 @@
-import Link from "next/link"
-import { useState } from "react";
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
-const Footer = () => {
+const navigation = [
+    { name: 'Terms and Conditions', href: '#' },
+    { name: 'Privacy Policy', href: '#' },
+    { name: 'Cookie Policy', href: '#' },
+    { name: 'Modern Slavery', href: '#' },
+    { name: 'Accessibility Statement', href: '#' }
+  ]
+  
+  export default function Footer() {
     const [color, setColor] = useState('transparent');
-    const [textColor, setTextColor] = useState('white');
-    
+    const router = useRouter();
+
+    const pathname = router.pathname;
+    let determiner = false;
+
+    if(pathname === "/") {
+      determiner = true;
+    }
+
+    const opaqueLinks = "fixed left-0 bottom-0 w-full z-10"
     return (
-        <div className="flex text-black fixed left-0 bottom-0 w-full z-10 p-8 text-xs">
-        <p className="mr-8">Copyright © 2023, MADE BY LULLIPOP & CO. LTD</p>
-        <footer className="flex gap-8 items-center justify-center text-black z-10" style={{ backgroundColor: `${color}` }}>
-            <Link href="/terms">Terms and Conditions</Link>
-            <div>|</div>
-            <Link href="/privacy">Privacy Policy</Link>
-            <div>|</div>
-            <Link href="/cookie">Cookie Policy</Link>
-            <div>|</div>
-            <Link href="/trafficing">Human Trafficing</Link>
-            <div>|</div>
-            <Link href="/acessibility">Accessibility Statement</Link>
-        </footer>
+      <footer  style={{backgroundColor: (determiner) ? `${color}` : `none`}} className={`bg-white dark:bg-black ${determiner&&opaqueLinks}`}>
+        <div className="mx-auto px-4 overflow-hidden sm:px-6 lg:px-8">
+          <nav className="flex flex-wrap justify-center items-center">
+            <p className="text-xs text-center text-gray-400 dark:text-white">&copy; 1939-2023 Lullipop Ltd. All Rights Reserved</p>
+            {
+              navigation.map((item, i) => (
+                <div key={i} className="px-4 py-2 text-xs">
+                  <a href={item.href} className="text-gray-500 dark:text-white hover:text-gray-900">
+                    {item.name}
+                  </a>
+                </div>
+              ))
+            }
+          </nav>
+          
         </div>
+      </footer>
     )
 }
-
-export default Footer

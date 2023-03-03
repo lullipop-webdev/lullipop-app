@@ -1,14 +1,22 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import Navbar from '@/components/NavBar'
-import Footer from '@/components/Footer'
+import Layout from '../components/Layout'
+import { useRouter } from 'next/router'
+import ShopProvider from '@/context/shopContext'
+import { ThemeProvider } from 'next-themes'
+
+
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+
   return( 
-    <>
-      <Navbar />
-      <Component {...pageProps} />
-      <Footer />
-    </>
+    <ThemeProvider enableSystem={true} attribute="class">
+      <ShopProvider>
+        <Layout>
+          <Component {...pageProps} key={router.asPath}/>
+        </Layout>
+      </ShopProvider>
+    </ThemeProvider>
   )
 }

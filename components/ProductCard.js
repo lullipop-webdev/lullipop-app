@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { formatter } from '../utils/helpers'
+//import { formatter } from '../utlis/helpers'
 
 const ProductCard = ({ product }) => {
   const { handle, title } = product.node
@@ -17,13 +17,13 @@ const ProductCard = ({ product }) => {
           <Image 
             src={url}
             alt={altText}
-            layout="fill"
-            objectFit="cover"
+            fill
+            className='object-cover'
           />
         </div>
       </div>
-      <h3 className="mt-4 text-lg font-medium text-white">{title}</h3>
-      <p className="mt-1 text-sm text-">{formatter.format(price)}</p>
+      <h3 className="mt-4 text-lg font-medium text-black dark:text-white">{title}</h3>
+      <p className="mt-1 text-sm text-black dark:text-white">{price}</p>
 
     </Link>)
   );

@@ -4,8 +4,20 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        '128': '32rem',
+        '138': '42rem'
+      },
+      width: {
+        '128': '60rem',
+      }
+      // fontFamily: {
+      //   montserrat: ['"Monserrat"', ...fontFamily.sans]
+      // }
+    },
   },
   plugins: [],
 }

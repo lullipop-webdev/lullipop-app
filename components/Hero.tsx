@@ -7,7 +7,7 @@ type Props = {
 
 const Hero: React.FC = () => {
     return(
-        <div className='flex items-center justify-center h-screen mb-12 min-h-full overflow-hidden'>
+        <div className='flex items-center justify-center h-screen min-h-full overflow-hidden'>
         <div className='absolute top-0 left-0 right-0 bottom-0 h-screen' />
         <Slider heading="DENIM" message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent viverra quam sem, eu consectetur velit tincidunt in. Aenean ut felis eget purus feugiat aliquam sit amet nec nulla. Sed viverra nisl eget velit dictum, finibus viverra risus elementum."/>
             

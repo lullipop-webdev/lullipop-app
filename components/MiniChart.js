@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 
 import Image from 'next/image'
 import { CartContext } from '../context/shopContext'
-import { formatter } from '../utils/helpers'
+//import { formatter } from '../utils/helpers'
 import Link from 'next/link'
 
 
@@ -51,19 +51,19 @@ export default function MiniCart({ cart }) {
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                  <div className="flex h-full flex-col overflow-y-scroll bg-white dark:bg-black shadow-xl">
                     <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
                       <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-lg font-medium text-gray-900">Shopping cart</Dialog.Title>
+                        <Dialog.Title className="text-lg font-medium text-gray-900 dark:text-white">Shopping cart</Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
                             ref={cancelButtonRef}
                             type="button"
-                            className="-m-2 p-2 text-gray-400 hover:text-gray-500"
+                            className="-m-2 p-2 text-gray-400 dark:text-white hover:text-gray-500"
                             onClick={() => setCartOpen(false)}
                           >
                             <span className="sr-only">Close panel</span>
-                            <i class="fa-thin fa-house" className="h-6 w-6" aria-hidden="true" />
+                            <i class="fa-thin fa-house" className="h-6 w-6 text-black dark:text-white" aria-hidden="true" />
                           </button>
                         </div>
                       </div>
@@ -73,18 +73,18 @@ export default function MiniCart({ cart }) {
                             cart.length > 0 ?
                             <ul role="list" className="-my-6 divide-y divide-gray-200">
                             {cart.map((product) => (
-                              <li key={product.id} className="flex py-6">
+                              <li key={product.id  + Math.random()} className="flex py-6">
                                 <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <Image
                                     src={product.image}
                                     alt={product.title}
-                                    layout="fill"
-                                    objectFit='cover'
+                                    fill
+                                    className='object-cover'
                                   />
                                 </div>
                                 <div className="ml-4 flex flex-1 flex-col">
                                   <div>
-                                    <div className="flex justify-between text-base font-medium text-gray-900">
+                                    <div className="flex justify-between text-base font-medium text-gray-900 dark:text-white">
                                       <h3>
                                         <Link
                                           href={`/products/${product.handle}`}
@@ -94,12 +94,12 @@ export default function MiniCart({ cart }) {
                                         {product.title}
                                         </Link>
                                       </h3>
-                                      <p className="ml-4">{formatter.format(product.variantPrice)}</p>
+                                      <p className="ml-4">{product.variantPrice}</p>
                                     </div>
-                                    <p className="mt-1 text-sm text-gray-500">{product.variantTitle}</p>
+                                    <p className="mt-1 text-sm text-gray-500 dark:text-white">{product.variantTitle}</p>
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">Qty {product.variantQuantity}</p>
+                                    <p className="text-gray-500 dark:text-white">Qty {product.variantQuantity}</p>
 
                                     <div className="flex">
                                       <button
@@ -126,11 +126,11 @@ export default function MiniCart({ cart }) {
                   {
                       cart.length > 0 ?
                       <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
-                      <div className="flex justify-between text-base font-medium text-gray-900">
+                      <div className="flex justify-between text-base font-medium text-gray-900 dark:text-white">
                         <p>Subtotal</p>
-                        <p>{formatter.format(cartTotal)}</p>
+                        <p>{cartTotal}</p>
                       </div>
-                      <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+                      <p className="mt-0.5 text-sm text-gray-500 dark:text-white">Shipping and taxes calculated at checkout.</p>
                       <div className="mt-6">
                         <a
                           href={checkoutUrl}
@@ -144,7 +144,7 @@ export default function MiniCart({ cart }) {
                           or
                           <button
                             type="button"
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                            className="pl-2 font-medium text-indigo-600 hover:text-indigo-500"
                             onClick={() => setCartOpen(false)}
                           >
                             Continue Shopping
