@@ -69,11 +69,10 @@ const Navbar = () => {
   //   };
   //   window.addEventListener('scroll', changeColor);
   // }, []);
-
   return (
     <div
-      style={{backgroundColor: (determiner) ? `${color}` : `none`}}
-      className='bg-white dark:bg-black  w-full z-10 ease-in duration-300'
+      style={{backgroundColor: (determiner) ? `transparent` : `none`, position: (determiner) ? `fixed` : `static` }}
+      className='bg-white dark:bg-black w-full z-10 ease-in duration-300'
     >
       <div className='flex justify-between items-center p-4 text-pink-400 xs:justify-start'>
         <div className='flex items-center p-4'>
