@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { customerAccessTokenCreate } from "../lib/Shopify";
+import { useRouter } from "next/router";
 
 export default function Login() {
+    const { push } = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -12,10 +14,13 @@ export default function Login() {
         try {
             const response = await customerAccessTokenCreate(email, password);
             console.log(response);
-            localStorage.setItem('accessToken', response.data.customerAccessTokenCreate.customerAccessToken.accessToken);
+            
 
             if(response.data.customerAccessTokenCreate.customerUserErrors.length > 0) {
                 setError(response.data.customerAccessTokenCreate.customerUserErrors[0].message)
+            } else {
+                localStorage.setItem('accessToken', response.data.customerAccessTokenCreate.customerAccessToken.accessToken);
+                push('/dashboard');
             }
         } catch (error) {
             console.log(error);
