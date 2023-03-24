@@ -20,7 +20,8 @@ export default function Dashboard() {
         })
         
     }, [])
-    
+
+    console.log(customerOrders)
     return (
         <div className="bg-white dark:bg-black">
             <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -34,6 +35,13 @@ export default function Dashboard() {
                 ))
                 
                 } */}
+                
+                {
+                    (customerOrders !== null) ? customerOrders[0].node.lineItems.edges.map((order) => {
+                        <h1>{order.node.title}</h1>
+                    }) : console.log("false")
+                }
+                
     
             </div>
             </div>

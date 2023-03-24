@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { customerCreate } from "../lib/Shopify";
+import Modal from "./Modal";
 
 export default function SignUp() {
     // const [values, setValues] = useState({
@@ -19,26 +20,39 @@ export default function SignUp() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState(''); 
     const [marketing, setMarketing] = useState(false);
-
-    console.log(marketing)
+    const [isOpen, setIsOpen] = useState(false);
 
     const onToggle = () => {setMarketing((prev) => !prev)};
+
+
+    function closeModal() {
+        setIsOpen(false);
+    }
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await customerCreate(email, password, firstName, lastName, marketing);
             console.log(response);
+            if(response) {
+                if(response.data.customerCreate.customer !== null) {
+                    setIsOpen(true);
+                    setError(false);
+                }    
 
-            if(response.data.customerCreate.customerUserErrors) {
-                setError(response.data.customerCreate.customerUserErrors[0].message)
+                if(response.data.customerCreate.customerUserErrors) {
+                    setError(response.data.customerCreate.customerUserErrors[0].message)
+                } 
+                
             }
+
         } catch (error) {
             console.log(error);
         }
     }
     return (    
         <div className="bg-white dark:bg-black w-full max-w-lg">
+            <Modal open={isOpen} closeModal={closeModal} />
             <form onSubmit={e => handleOnSubmit(e)}>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
