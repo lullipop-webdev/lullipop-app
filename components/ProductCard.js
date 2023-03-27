@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-//import { formatter } from '../utlis/helpers'
+import { formatter } from '../utlis/helpers'
 
 const ProductCard = ({ product }) => {
   const { handle, title } = product.node
@@ -23,7 +23,7 @@ const ProductCard = ({ product }) => {
         </div>
       </div>
       <h3 className="mt-4 text-lg font-medium text-black dark:text-white">{title}</h3>
-      <p className="mt-1 text-sm text-black dark:text-white">{price}</p>
+      <p className="mt-1 text-sm text-black dark:text-white">{formatter.format(price)}</p>
 
     </Link>)
   );

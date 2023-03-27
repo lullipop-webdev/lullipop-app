@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react'
-import { createCheckout, updateCheckout } from '../lib/Shopify'
+import { createCheckout, updateCheckout, getCustomerDetails, getCustomerDefaultAddress } from '../lib/Shopify'
 
 const CartContext = createContext()
 
@@ -9,9 +9,48 @@ export default function ShopProvider({ children }) {
   const [checkoutId, setCheckoutId] = useState('')
   const [checkoutUrl, setCheckoutUrl] = useState('')
   const [cartLoading, setCartLoading] = useState(false)
+  const [data, setData] = useState({
+    email: "",
+    firstName: "",
+    lastName: ""
+  })
+  const [defaultAddress, setDefaultAddress] = useState({
+    address1: "",
+    address2: "",
+    city: "",
+    country: "",
+    province: "",
+    zip: ""
+  })
 
   useEffect(() => {
+      const accessToken = localStorage.getItem('accessToken')
+      if(localStorage.accessToken) {
+        getCustomerDetails(accessToken).then((data) => {
+          setData({
+            email: data.email,
+            firstName: data.firstName,
+            lastName: data.lastName
+          })
+        })
+  
+        getCustomerDefaultAddress(accessToken).then((data) => {
+          setDefaultAddress({
+            address1: data.address1,
+            address2: data.address2,
+            city: data.city,
+            country: data.country,
+            province: data.province,
+            zip: data.zip
+          })
+        })
+      }
+      
+  }, [])
+  console.log(defaultAddress)
+  useEffect(() => {
     if (localStorage.checkout_id) {
+
       const cartObject = JSON.parse(localStorage.checkout_id)
 
       if (cartObject[0].id) {
@@ -26,17 +65,14 @@ export default function ShopProvider({ children }) {
 
   }, [])
 
-
   async function addToCart(addedItem) {
     const newItem = {...addedItem}
-    console.log(newItem)
     setCartOpen(true)
 
     if (cart.length === 0) {
       setCart([newItem])
 
-      const checkout = await createCheckout(newItem.id, 1)
-
+      const checkout = await createCheckout(newItem.id, 1, data, defaultAddress)
       setCheckoutId(checkout.id)
       setCheckoutUrl(checkout.webUrl)
 
@@ -56,7 +92,7 @@ export default function ShopProvider({ children }) {
       if (!added) {
         newCart = [...cart, newItem]
       }
-
+      
       setCart(newCart)
       const newCheckout = await updateCheckout(checkoutId, newCart)
       localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))

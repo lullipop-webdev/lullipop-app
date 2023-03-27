@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react"
-//import { formatter } from '../utils/helpers'
+import { formatter } from '../utlis/helpers'
 import ProductOptions from "./ProductOptions"
 import { CartContext } from "../context/shopContext"
 import axios from "axios"
@@ -18,11 +18,11 @@ const fetchInventory = (url, id) =>
     .then((res) => res.data)
     
 export default function ProductForm({ product }) {
-  const { data: productInventory } = useSWR(
-    [`/api/available/${product.handle}`],
-    (url, id) => fetchInventory(url, id),
-    { errorRetryCount: 3 }
-  )
+  // const { data: productInventory } = useSWR(
+  //   [`/api/available/${product.handle}`],
+  //   (url, id) => fetchInventory(url, id),
+  //   { errorRetryCount: 3 }
+  // )
 
   const [available, setAvailable] = useState(true)
   
@@ -55,6 +55,9 @@ export default function ProductForm({ product }) {
   const [selectedVariant, setSelectedVariant] = useState(allVariantOptions[0])
   const [selectedOptions, setSelectedOptions] = useState(defaultValues)
 
+  
+
+
   function setOptions(name, value) {
     setSelectedOptions(prevState => {
       return { ...prevState, [name]: value }
@@ -72,20 +75,19 @@ export default function ProductForm({ product }) {
     })
   }
 
-  useEffect(() => {
-    if (productInventory) {
-      const checkAvailable = productInventory?.variants.edges.filter(item => item.node.id === selectedVariant.id)
+  // useEffect(() => {
+  //   if (productInventory) {
+  //     const checkAvailable = productInventory?.variants.edges.filter(item => item.node.id === selectedVariant.id)
 
-      if (checkAvailable[0]?.node.availableForSale) {
-        setAvailable(true)
-      } else {
-        setAvailable(false)
-      }
-    }
-  }, [productInventory, selectedVariant])
+  //     if (checkAvailable[0]?.node.availableForSale) {
+  //       setAvailable(true)
+  //     } else {
+  //       setAvailable(false)
+  //     }
+  //   }
+  // }, [productInventory, selectedVariant])
 
   const collectionOptions = []
-  console.log(product.collections.edges[0].node.products.edges)
   product.collections.edges[0].node.products.edges.map((collection, i) => {
     collectionOptions.push(
       <div className="min-width-full min-h-full">
@@ -95,11 +97,11 @@ export default function ProductForm({ product }) {
       </div>
     )
   })
-
+  
   return (
     <div className="flex flex-col w-full p-4 xl:w-1/4 lg:w-1/4 xl:justify-start xl:items-start sm:justify-center sm:items-center text-black dark:text-white">
       <h2 className="text-2xl font-bold">{product.title}</h2>
-      <span className="pb-3">{product.variants.edges[0].node.priceV2.amount}</span>
+      <span className="pb-3">{formatter.format(product.variants.edges[0].node.priceV2.amount)}</span>
 
       <div className="flex flex-row w-full justify-between mt-2 mb-2 xl:justify-between xl:items-start sm:justify-center sm:space-x-6">
           <p className="text-xs">available in these colors</p>
@@ -118,7 +120,7 @@ export default function ProductForm({ product }) {
             selectedOptions={selectedOptions}
             setOptions={setOptions}
             selectedVariant={selectedVariant}
-            productInventory={productInventory}
+            // productInventory={productInventory}
             available={available}
           />
         ))

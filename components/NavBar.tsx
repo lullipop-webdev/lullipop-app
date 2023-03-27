@@ -4,7 +4,7 @@ import { CartContext } from '../context/shopContext';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { HiShoppingBag } from 'react-icons/hi'
 import MiniCart from './MiniChart'
-import { HiSun, HiMoon } from 'react-icons/hi';
+import { HiSun, HiMoon, HiUserCircle } from 'react-icons/hi';
 import LulliLogo from '../assets/lulli-pink-logo.png'
 import Image from 'next/image';
 import { useTheme } from 'next-themes';

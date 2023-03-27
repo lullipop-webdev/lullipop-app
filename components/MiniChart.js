@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 
 import Image from 'next/image'
 import { CartContext } from '../context/shopContext'
-//import { formatter } from '../utils/helpers'
+import { formatter } from '../utlis/helpers'
 import Link from 'next/link'
 
 
@@ -94,7 +94,7 @@ export default function MiniCart({ cart }) {
                                         {product.title}
                                         </Link>
                                       </h3>
-                                      <p className="ml-4">{product.variantPrice}</p>
+                                      <p className="ml-4">{formatter.format(product.variantPrice)}</p>
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500 dark:text-white">{product.variantTitle}</p>
                                   </div>
@@ -128,7 +128,7 @@ export default function MiniCart({ cart }) {
                       <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900 dark:text-white">
                         <p>Subtotal</p>
-                        <p>{cartTotal}</p>
+                        <p>{formatter.format(cartTotal)}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500 dark:text-white">Shipping and taxes calculated at checkout.</p>
                       <div className="mt-6">

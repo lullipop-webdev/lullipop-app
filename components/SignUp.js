@@ -23,8 +23,9 @@ export default function SignUp() {
     const [isOpen, setIsOpen] = useState(false);
 
     const onToggle = () => {setMarketing((prev) => !prev)};
-
-
+    let linkNeeded = true;
+    let heading = "Sign Up Success"
+    
     function closeModal() {
         setIsOpen(false);
     }
@@ -52,7 +53,7 @@ export default function SignUp() {
     }
     return (    
         <div className="bg-white dark:bg-black w-full max-w-lg">
-            <Modal open={isOpen} closeModal={closeModal} />
+            <Modal open={isOpen} closeModal={closeModal} heading={heading} linkNeeded={linkNeeded} />
             <form onSubmit={e => handleOnSubmit(e)}>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">

@@ -1,8 +1,9 @@
 import { Dialog, Transition } from '@headlessui/react'
 import Link from 'next/link'
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function Modal({open, closeModal}) {
+export default function Modal({open, closeModal, message, heading, linkNeeded}) {
+  let signupMessage = <p className="text-sm text-gray-500">You have successfully signed up for a User Account! You can try logging in to your account <span className='underline text-pink-400'><Link href={`/login`}>here.</Link></span></p>
   return (
     <>
         <Dialog open={open} as="div" className="relative z-10" onClose={closeModal}>
@@ -17,11 +18,12 @@ export default function Modal({open, closeModal}) {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Sign-Up Success
+                    {heading}
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      You have successfully signed up for a User Account! You can try logging in to your account <span className='underline text-pink-400'><Link href={`/login`}>here.</Link></span>
+                      {linkNeeded ? signupMessage : message}
+                      {/* You have successfully signed up for a User Account! You can try logging in to your account <span className='underline text-pink-400'><Link href={`/login`}>here.</Link></span> */}
                     </p>
                   </div>
 
