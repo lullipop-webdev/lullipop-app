@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 // import { customerAccessTokenCreate, getCustomerDetails } from "../lib/Shopify";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Login() {
     const { push } = useRouter();
@@ -41,12 +42,10 @@ export default function Login() {
                     <p className="text-red-500 text-xs italic">{error}</p>
                     </div>
                     <div className="flex items-center justify-between">
-                    <button className="bg-pink-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                        Sign In
-                    </button>
-                    <a className="inline-block align-baseline font-bold text-sm text-pink-400" href="#">
-                        Forgot Password?
-                    </a>
+                        <button className="bg-pink-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                            Sign In
+                        </button>
+                        <Link className="inline-block align-baseline font-bold text-sm text-pink-400" href="/forgotpassword">Forgot Password</Link>
                     </div>
                 </form>
                 {/* <p className="text-center text-gray-500 text-xs">
