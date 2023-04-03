@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter, push } from "next/router";
 import React, { useState, useMemo } from "react";
 import {
     MdOutlineSpaceDashboard,
@@ -12,20 +12,23 @@ import {
 } from "react-icons/md";
 
 import { BsFillArrowLeftCircleFill } from "react-icons/bs"
+import {useAuth} from '../context/AuthContext'
 
 const menuItems = [
   { id: 1, label: "Home", link: "/" },
   { id: 2, label: "Order History", link: "/orderhistory" },
-  { id: 3, label: "Account Settings", link: "/users" },
+  { id: 3, label: "Account Settings", link: "/accountsettings" },
   { id: 4, label: "Delivery Addresses", link: "/deliveryaddress" },
 ];
 
 const Sidebar = ({customer}) => {
+
+  const {logout} = useAuth();
   const [toggleCollapse, setToggleCollapse] = useState(false);
   const [isCollapsible, setIsCollapsible] = useState(false);
 
   const router = useRouter();
-
+  
   const activeMenu = useMemo(
     () => menuItems.find((menu) => menu.link === router.pathname),
     [router.pathname]
@@ -62,7 +65,7 @@ const Sidebar = ({customer}) => {
   const handleSidebarToggle = () => {
     setToggleCollapse(!toggleCollapse);
   };
-
+  
   return (
     <div
       className={wrapperClasses}
@@ -72,12 +75,12 @@ const Sidebar = ({customer}) => {
     >
       <div className="flex flex-col">
         <span
-            className={classNames("mt-2 font-medium text-lg", {
+            className={classNames("mt-2 font-medium text-lg font-Montserrat", {
                 hidden: toggleCollapse,
             })}
             >
             {/* {customer?.firstName + " " + customer?.lastName} */}
-            {customer&& customer.firstName + " " + customer.lastName}
+            {customer && customer.firstName + " " + customer.lastName}
         </span>
         <div className="flex items-center justify-between relative">
           <div className="flex items-center gap-4">
@@ -98,6 +101,14 @@ const Sidebar = ({customer}) => {
               <BsFillArrowLeftCircleFill size="2rem"/>
             </button>
           )}
+        </div>
+
+        <div className="mt-6">
+          <button className={classNames("shadow bg-pink-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-xl", {
+                hidden: toggleCollapse,
+              })} onClick={logout}>
+              Logout
+          </button>
         </div>
 
         <div className="flex flex-col items-start mt-24">

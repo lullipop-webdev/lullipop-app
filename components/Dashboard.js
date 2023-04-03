@@ -1,33 +1,20 @@
-import { useEffect, useState } from 'react';
-import { getCustomerDetails,getCustomerOrders } from '../lib/Shopify';
+import  { useRouter } from 'next/router';
 
 import Sidebar from './Sidebar' 
+import { useAuth, ProtectRoute } from '@/context/AuthContext';
 
 export default function Dashboard({children}) {
-
-    const [data, setData] = useState(null);
-    // const [customerOrders, setCustomerOrders] = useState(null);
-
-    useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken');
-
-        getCustomerDetails(accessToken).then((data) => {
-            setData(data)
-        })
-
-        // getCustomerOrders(accessToken).then((data) => {
-        //     setCustomerOrders(data)
-        // })
-        
-    }, [])
+    const router = useRouter();
+    const {user, isAuthenticated} = useAuth();
 
     return (
-        <div className="h-screen flex flex-row justify-start mx-12 xl:ml-64">
-            <Sidebar customer={data} />
-            <div className="bg-primary flex-1 p-4 text-white">
-                {children}
+        <ProtectRoute>
+            <div className=" min-h-fit flex flex-row justify-start mx-12 xl:ml-64 ">
+                <Sidebar customer={user} />
+                <div className="bg-primary flex-1 p-4 text-white">
+                    {children}
+                </div>
             </div>
-        </div>
+        </ProtectRoute>
     )
-    
 }

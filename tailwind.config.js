@@ -13,10 +13,10 @@ module.exports = {
       },
       width: {
         '128': '60rem',
+      },
+      fontFamily: {
+        Montserrat: ["Montserrat", "sans-serif"],
       }
-      // fontFamily: {
-      //   montserrat: ['"Monserrat"', ...fontFamily.sans]
-      // }
     },
   },
   plugins: [],

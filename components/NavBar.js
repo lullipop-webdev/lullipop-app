@@ -1,24 +1,58 @@
 import Link from 'next/link';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { CartContext } from '../context/shopContext';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { HiShoppingBag } from 'react-icons/hi'
 import MiniCart from './MiniChart'
 import { HiSun, HiMoon, HiUserCircle } from 'react-icons/hi';
 import LulliLogo from '../assets/lulli-pink-logo.png'
+import AccountIcon from '../assets/customer_acc_icons-03.png';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/router';
+import { Menu, Transition } from '@headlessui/react'
+import { useAuth } from '@/context/AuthContext';
 
-const Navbar = () => {
+
+function MoveInactiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M10 4H16V10" stroke="#A78BFA" strokeWidth="2" />
+      <path d="M16 4L8 12" stroke="#A78BFA" strokeWidth="2" />
+      <path d="M8 6H4V16H14V12" stroke="#A78BFA" strokeWidth="2" />
+    </svg>
+  )
+}
+
+function MoveActiveIcon(props) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M10 4H16V10" stroke="#C4B5FD" strokeWidth="2" />
+      <path d="M16 4L8 12" stroke="#C4B5FD" strokeWidth="2" />
+      <path d="M8 6H4V16H14V12" stroke="#C4B5FD" strokeWidth="2" />
+    </svg>
+  )
+}
+
+export default function Navbar() {
   const [nav, setNav] = useState(false);
   const [color, setColor] = useState('transparent');
   const [textColor, setTextColor] = useState('white');
   const [mounted, setMounted] = useState(false);
   const { cart, cartOpen, setCartOpen } = useContext(CartContext)
-
+  
   let cartQuantity = 0
-  cart.map((item: any) => {
+  cart.map((item) => {
     return (cartQuantity += item?.variantQuantity)
   })
 
@@ -45,9 +79,13 @@ const Navbar = () => {
     }
   };
 
+  const {isAuthenticated , logout} = useAuth();
+  
   useEffect(() =>{
     setMounted(true);
-  },[])
+  },[isAuthenticated])
+
+  
 
   const router = useRouter();
 
@@ -57,18 +95,7 @@ const Navbar = () => {
   if(pathname === "/") {
     determiner = true;
   }
-  // useEffect(() => {
-  //   const changeColor = () => {
-  //     if (window.scrollY >= 90) {
-  //       setColor('black');
-  //       setTextColor('#ffffff');
-  //     } else {
-  //       setColor('transparent');
-  //       setTextColor('#ffffff');
-  //     }
-  //   };
-  //   window.addEventListener('scroll', changeColor);
-  // }, []);
+
   return (
     <div
       style={{backgroundColor: (determiner) ? `transparent` : `none`, position: (determiner) ? `fixed` : `static` }}
@@ -94,6 +121,50 @@ const Navbar = () => {
         </div> */}
         <div className='max-w-[1240px] flex items-center'>
           <div className='flex flex-row space-x-5'>
+            <Menu as="div" className="relative inline-block text-left">
+              <Menu.Button>
+                <Image src={AccountIcon} alt="Lullipop" width={30} height={30}/>
+              </Menu.Button>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute w-36 right-0 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  
+                  <div className="px-1 py-1">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        >
+                         {!isAuthenticated ? <Link href='/login'>Login</Link> : <Link href='/dashboard'>Dashboard</Link>}
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        >
+                          
+                          {!isAuthenticated ? <Link href='/signup'>Sign Up</Link> : <Link href='/' onClick={logout}>Logout</Link>}
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+
+                </Menu.Items>
+              </Transition>
+            </Menu>
             <a 
               className="text-md font-bold cursor-pointer"
               onClick={() => setCartOpen(!cartOpen)}
@@ -133,4 +204,3 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
