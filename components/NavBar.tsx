@@ -9,6 +9,7 @@ import LulliLogo from '../assets/lulli-pink-logo.png'
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/router';
+import { FiChevronRight } from 'react-icons/fi';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -88,6 +89,23 @@ const Navbar = () => {
               <AiOutlineMenu size={20}  />
             )}
           </div>  
+        </div>
+        <div className='flex items-left p-4 w-1/2'>
+          <div className="border border-pink-500 rounded-full p-2 flex items-center">
+            <input
+              type="text"
+              className="flex-grow border-none outline-none text-lg px-2 text-dark-500 dark:text-white"
+              style={{
+                backgroundColor: 'transparent'
+              }}
+              placeholder="Search"
+            />
+            <button className="text-dark-500 dark:text-white rounded-md py-2 px-4 ml-2">
+              <FiChevronRight />
+            </button>
+          </div>
+        </div>
+        <div className='flex items-left p-4'>
         </div>
         {/* <div className="h-full flex px-32 min-w-full lg:min-w-[500px] lg:visible sm:invisible">
               <input type="text" placeholder='Search' style={{backgroundColor: (determiner) ? `${color}` : `none`}} className="bg-white dark:bg-black text-pink-400 border-2 border-pink-400 rounded-2xl px-8" />
