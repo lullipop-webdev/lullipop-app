@@ -1,17 +1,15 @@
 import { getProductsInCollection, getCollections } from "@/lib/Shopify"
-import Shop from "../components/Shop";
+import ShopNew from "../components/ShopNew";
 
-export default function shop({categories}) {
+export default function shop({collections}) {
     return (
-        <div className="flex justify-center">
-            <Shop categories={categories} />
-        </div>
+        <ShopNew collections={collections} />
     )
 }
 
 export async function getStaticProps() {
-    const categories = await getCollections(10);
+    const collections = await getCollections(10);
     return {
-      props: { categories }, // will be passed to the page component as props
+      props: { collections }, // will be passed to the page component as props
     }
 }
