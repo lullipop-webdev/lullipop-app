@@ -7,13 +7,15 @@ import { useRouter } from "next/router";
 import ProductCard from "./ProductCard";
 import { getProductsInCollection } from "@/lib/Shopify";
 
-const sortOptions = [
-    { name: 'Most Popular', href: '#', current: true },
-    { name: 'Best Rating', href: '#', current: false },
-    { name: 'Newest', href: '#', current: false },
-    { name: 'Price: Low to High', href: '#', current: false },
-    { name: 'Price: High to Low', href: '#', current: false },
-]
+var sortOptionsList = [
+  { name: 'Most Popular',       href: '#', key: 'BEST_SELLING', current: false },
+  { name: 'Newest',             href: '#', key: 'CREATED',      current: false },
+  { name: 'Title: A to Z',      href: '#', key: 'TITLE_ASC',    current: false },
+  { name: 'Title: Z to A',      href: '#', key: 'TITLE_DESC',   current: false },
+  { name: 'Price: Low to High', href: '#', key: 'PRICE_LOW',    current: false },
+  { name: 'Price: High to Low', href: '#', key: 'PRICE_HIGH',   current: false },
+];
+
 const subCategories = [
     { name: 'Totes', href: '#' },
     { name: 'Backpacks', href: '#' },
@@ -67,17 +69,26 @@ const ShopNew = ({ collections }) => {
   const router = useRouter();
   const q = router.query.q;
 
+  const [sortOptions, setSortOptions] = useState(sortOptionsList);
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [products, setProducts] = useState([]);
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
-  const handleCategoryClick = async (collection) => {
+  const handleCategoryClick = async (collection, option_key = null) => {
     setSelectedCollection(collection);
     // Call a function or perform an action based on the selected collection
     console.log("selectedCollection:: ", selectedCollection);
-    const products = await getProductsInCollection(collection.node.handle);
+    const products = await getProductsInCollection(collection.node.handle, option_key);
     setProducts(products);
+  };
+
+  const handleSortOptionClick = async (option_key) => {
+    const newSortOptions = sortOptions.map(option => {
+      return {...option, current: (option.key === option_key) }
+    });
+    setSortOptions(newSortOptions);
+    handleCategoryClick(selectedCollection, option_key);
   };
 
   useEffect(() => {
@@ -214,7 +225,7 @@ const ShopNew = ({ collections }) => {
                 <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="py-1">
                     {sortOptions.map((option) => (
-                      <Menu.Item key={option.name}>
+                      <Menu.Item key={option.name} onClick={() => handleSortOptionClick(option.key)}>
                         {({ active }) => (
                           <a
                             href={option.href}
