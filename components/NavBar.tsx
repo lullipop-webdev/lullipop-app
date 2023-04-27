@@ -174,7 +174,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex md:order-2 flex-row space-x-5">
-            <Link href='/' className='flex items-center cursor-pointer relative' onClick={() => setCartOpen(!cartOpen)}>
+            <Link href='#' className='flex items-center cursor-pointer relative' onClick={() => setCartOpen(!cartOpen)}>
               <FiShoppingCart size="1.5rem" />
               <span className="inline-flex items-center justify-center absolute top-0 right-0 w-4 h-4 bg-red-500 text-xs rounded-full text-white">
                 {cartQuantity}
