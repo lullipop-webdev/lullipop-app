@@ -9,7 +9,7 @@ import LulliLogo from '../assets/lulli-pink-logo.png'
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/router';
-import { FiChevronRight } from 'react-icons/fi';
+import { FiChevronRight, FiSearch, FiShoppingCart } from 'react-icons/fi';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -75,7 +75,7 @@ const Navbar = () => {
       style={{backgroundColor: (determiner) ? `transparent` : `none`, position: (determiner) ? `fixed` : `static` }}
       className='bg-white dark:bg-black w-full z-10 ease-in duration-300'
     >
-      <div className='flex justify-between items-center p-4 text-pink-400 xs:justify-start'>
+      <div className='flex justify-between items-center p-4 text-pink-400 xs:justify-start hidden'>
         <div className='flex items-center p-4'>
           <Link href='/' className='mr-4'>
             
@@ -91,7 +91,7 @@ const Navbar = () => {
           </div>  
         </div>
         <div className='flex items-left p-4 w-1/2'>
-          <div className="border border-pink-500 rounded-full p-2 flex items-center">
+          <div className="border border-pink-500 rounded-full p-2 items-center lg:flex">
             <input
               type="text"
               className="flex-grow border-none outline-none text-lg px-2 text-dark-500 dark:text-white"
@@ -147,6 +147,72 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
+
+      <nav style={{backgroundColor: (determiner) ? `transparent` : `none` }} className="bg-white border-gray-200 dark:bg-black ease-in duration-300 p-4">
+        <div className="flex flex-wrap items-center justify-between p-4 text-pink-400">
+          <Link href='/' className='flex items-center'>
+            <Image src={LulliLogo} alt="Lullipop" width={160} height={90}/>
+          </Link>
+
+          <div className="flex md:order-2">
+            <div className="relative hidden lg:block">
+              <div className="border border-pink-500 rounded-full p-2 items-center hidden lg:flex">
+                <input
+                  type="text"
+                  className="flex-grow border-none outline-none text-lg px-2 text-dark-500 dark:text-white"
+                  style={{
+                    backgroundColor: 'transparent'
+                  }}
+                  placeholder="Search"
+                  aria-hidden="true"
+                />
+                <button className="text-dark-500 dark:text-white rounded-md py-2 px-4 ml-2">
+                  <FiSearch />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex md:order-2 flex-row space-x-5">
+            <Link href='/' className='flex items-center cursor-pointer relative' onClick={() => setCartOpen(!cartOpen)}>
+              <FiShoppingCart size="1.5rem" />
+              <span className="inline-flex items-center justify-center absolute top-0 right-0 w-4 h-4 bg-red-500 text-xs rounded-full text-white">
+                {cartQuantity}
+              </span>
+            </Link>
+            {renderThemeChanger()}
+            <div onClick={handleNav} className='z-10 inline-flex items-center ease-in duration-300'>
+              {nav ? (
+                <AiOutlineClose size={20}/>
+              ) : (
+                <AiOutlineMenu size={20}  />
+              )}
+            </div> 
+          </div>
+
+        <div
+          className={
+            nav
+              ? 'absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center w-full h-screen bg-white dark:bg-black text-center ease-in duration-300'
+              : 'absolute top-0 left-[-100%] right-0 bottom-0 flex justify-center items-center w-full h-screen bg-white dark:bg-black text-center ease-in duration-300'
+          }
+        >
+          <ul>
+            <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
+              <Link href='/'>Lullipop</Link>
+            </li>
+            <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
+              <Link href='/products'>Shop</Link>
+            </li>
+            <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
+              <Link href='/work'>Lullifit</Link>
+            </li>            
+          </ul>
+        </div>
+
+
+        </div>
+      </nav>
     </div>
   );
 };
