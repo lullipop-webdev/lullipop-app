@@ -11,7 +11,8 @@ import Image from 'next/image';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/router';
 import { FiChevronRight, FiSearch, FiShoppingCart } from 'react-icons/fi';
-
+import { useAuth } from '@/context/AuthContext';
+import { Menu, Transition } from '@headlessui/react'
 
 function MoveInactiveIcon(props) {
   return (
