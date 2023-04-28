@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Tab } from '@headlessui/react'
 import Dashboard from '@/components/Dashboard'
+import EditAddressForm from '@/components/EditAddressForm'
 import DeliveryAddressForm from '@/components/DeliveryAddressForm'
 import { getCustomerAddresses, getCustomerDefaultAddress } from '@/lib/Shopify'
 import { AiOutlineCheckCircle } from 'react-icons/ai'
@@ -10,11 +11,25 @@ function classNames(...classes) {
 }
 
 
+
 export default function DeliveryAddress() {
 
     const [data, setData] = useState(null);
     const [defaultAddress, setDefaultAddress] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [addressId, setAddressId] = useState('')
+    const [selected, setSelected] = useState()
+    
+    function closeModal() {
+      setIsOpen(false);
+    }
+    
+    function openModal() {
+      setIsOpen(true)
+    }
 
+    console.log(addressId)
+    
     useEffect(() => {
       const accessToken = localStorage.getItem('accessToken');
 
@@ -26,15 +41,13 @@ export default function DeliveryAddress() {
         setDefaultAddress(data.id);
       })
       
-
-      // getCustomerOrders(accessToken).then((data) => {
-      //     setCustomerOrders(data)
-      // })
     
-    }, [data])
+    }, [])
+
       return (
         <Dashboard>
-          <div className="w-full max-w-xl py-16 sm:px-0">
+          <EditAddressForm open={isOpen} closeModal={closeModal} addresses={data}  addressId={addressId}/>
+          <div className="w-full max-w-xl py-6 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20">
                 
@@ -72,26 +85,35 @@ export default function DeliveryAddress() {
                   <Tab.Panel
                     className={classNames(
                       'rounded-xl bg-white dark:bg-black',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+                      'focus:outline-none'
                     )}
                   >
                     <ul>
                         {defaultAddress && data && data.map((address) => (
                           <li
-                          key={address.id}
-                          className="relative rounded-md hover:bg-pink-400 flex flex-row justify-between text-black dark:text-white mb-3 h-8"
+                          key={address.id.slice(29,41)}
+                          className="relative rounded-md flex flex-row justify-evenly text-black dark:text-white mb-3 h-14 px-4 py-3"
                           >
+                            
                             <h3 className="text-sm font-medium leading-5 w-full">
                               {address.formatted}
                             </h3>
 
                             {address.id.slice(28,41) === defaultAddress.slice(28,41) &&
-                              <AiOutlineCheckCircle />
+                              <AiOutlineCheckCircle size={"lg"} />
                             }
+                            
+                            <div className="w-52">
+                              <button className="shadow bg-pink-400 focus:shadow-outline focus:outline-none text-white rounded px-2" onClick={e =>  {setAddressId(address.id); openModal()}}>
+                                  Edit Address
+                              </button>
+                            </div>
+
+                            
                             {/* <button className="shadow focus:shadow-outline focus:outline-none font-bold px-4 rounded">
                               Edit Address
                             </button> */}
-                        </li>
+                          </li>
                         ))}
                         
                     </ul>

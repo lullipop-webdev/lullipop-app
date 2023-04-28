@@ -47,7 +47,7 @@ export default function ShopProvider({ children }) {
       }
       
   }, [])
-  console.log(defaultAddress)
+
   useEffect(() => {
     if (localStorage.checkout_id) {
 

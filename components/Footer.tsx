@@ -22,7 +22,7 @@ const navigation = [
 
     const opaqueLinks = "fixed left-0 bottom-0 w-full z-10"
     return (
-      <footer  style={{backgroundColor: (determiner) ? `${color}` : `none`}} className={`bg-white dark:bg-black ${determiner&&opaqueLinks}`}>
+      <footer  style={{backgroundColor: (determiner) ? `${color}` : `none`}} className={`bg-white dark:bg-black h-10 ${determiner&&opaqueLinks}`}>
         <div className="mx-auto px-4 overflow-hidden sm:px-6 lg:px-8">
           <nav className="flex flex-wrap justify-center items-center">
             <p className="text-xs text-center text-gray-400 dark:text-white">&copy; 1939-2023 Lullipop Ltd. All Rights Reserved</p>
