@@ -141,8 +141,8 @@ export default function Navbar() {
                       {({ active }) => (
                         <button
                           className={`${
-                            active ? 'bg-violet-500 text-white' : 'text-gray-900'
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            active ? 'bg-pink-400 text-white' : 'text-gray-900'
+                          } group flex w-full items-center px-2 py-2 text-sm`}
                         >
                          {!isAuthenticated ? <Link href='/login'>Login</Link> : <Link href='/dashboard'>Dashboard</Link>}
                         </button>
@@ -152,8 +152,8 @@ export default function Navbar() {
                       {({ active }) => (
                         <button
                           className={`${
-                            active ? 'bg-violet-500 text-white' : 'text-gray-900'
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            active ? 'bg-pink-500 text-white' : 'text-gray-900'
+                          } group flex w-full items-center px-2 py-2 text-sm`}
                         >
                           
                           {!isAuthenticated ? <Link href='/signup'>Sign Up</Link> : <Link href='/' onClick={logout}>Logout</Link>}
