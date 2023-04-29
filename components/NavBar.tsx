@@ -202,7 +202,7 @@ const Navbar = () => {
               <Link href='/'>Lullipop</Link>
             </li>
             <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
-              <Link href='/products'>Shop</Link>
+              <Link href='/shop'>Shop</Link>
             </li>
             <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
               <Link href='/work'>Lullifit</Link>
