@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { formatter } from '../utlis/helpers'
 
 
-export default function orderhistory() {
+export default function OrderHistory() {
     const [customerOrders, setCustomerOrders] = useState(null)
 
     useEffect(() => {

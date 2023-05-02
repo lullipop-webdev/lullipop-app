@@ -1,17 +1,7 @@
 import Dashboard from '../components/Dashboard'
-import { getCustomerDetails } from '../lib/Shopify'
-import { useState, useEffect } from 'react'
-import { getCollections } from '../lib/Shopify'
 import Image from 'next/image'
 
 export default function dashboard() {
-    const [collections, setCollections] = useState(null)
-
-    useEffect(() => {
-        getCollections().then((data) => {
-            setCollections(data);
-        })
-    }, [])
 
     return(
         <div>
@@ -24,7 +14,7 @@ export default function dashboard() {
                             <div className="px-6 py-4 flex flex-col justify-center items-center">
                                 <div className="font-bold text-xl text-black dark:text-white mb-2">LULLIPOP MUST-HAVES</div>
                                 <p className="text-black dark:text-white text-center">
-                               You'll surely love every lullipop must-have we have chosen for you
+                               Youll surely love every lullipop must-have we have chosen for you
                                 </p>
                             </div>
                             <div className="px-6 pt-4 pb-2 flex justify-center items-center">
