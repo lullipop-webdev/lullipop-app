@@ -23,42 +23,18 @@ const subCategories = [
     { name: 'Hip Bags', href: '#' },
     { name: 'Laptop Sleeves', href: '#' },
 ]
-const filters = [
+var filtersList = [
     {
-        id: 'color',
-        name: 'Color',
-        options: [
-        { value: 'white', label: 'White', checked: false },
-        { value: 'beige', label: 'Beige', checked: false },
-        { value: 'blue', label: 'Blue', checked: true },
-        { value: 'brown', label: 'Brown', checked: false },
-        { value: 'green', label: 'Green', checked: false },
-        { value: 'purple', label: 'Purple', checked: false },
-        ],
-    },
-    {
-        id: 'category',
-        name: 'Category',
-        options: [
+      id: 'category',
+      name: 'Category',
+      options: [
         { value: 'new-arrivals', label: 'New Arrivals', checked: false },
         { value: 'sale', label: 'Sale', checked: false },
         { value: 'travel', label: 'Travel', checked: true },
         { value: 'organization', label: 'Organization', checked: false },
         { value: 'accessories', label: 'Accessories', checked: false },
-        ],
-    },
-    {
-        id: 'size',
-        name: 'Size',
-        options: [
-            { value: '2l', label: '2L', checked: false },
-            { value: '6l', label: '6L', checked: false },
-            { value: '12l', label: '12L', checked: false },
-            { value: '18l', label: '18L', checked: false },
-            { value: '20l', label: '20L', checked: false },
-            { value: '40l', label: '40L', checked: true },
-        ],
-    },
+      ],
+    }
 ]
 
 function classNames(...classes) {
@@ -70,29 +46,111 @@ const ShopNew = ({ collections }) => {
   const q = router.query.q;
 
   const [sortOptions, setSortOptions] = useState(sortOptionsList);
+  const [filters, setFilters] = useState(filtersList);
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [products, setProducts] = useState([]);
-
+  const [globalProducts, setGlobalProducts] = useState([]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
-  const handleCategoryClick = async (collection, option_key = null) => {
+  const handleCollectionClick = async (collection, option_key = null) => {
     setSelectedCollection(collection);
     // Call a function or perform an action based on the selected collection
     console.log("selectedCollection:: ", selectedCollection);
     const products = await getProductsInCollection(collection.node.handle, option_key);
+    setGlobalProducts(products);
     setProducts(products);
+    // set categories
+    const updatedFilters = filters.map(filter => {
+      if (filter.id === 'category') {
+        const updatedOptions = filter.options.reduce((acc, option) => {
+          // check if productType is null
+          for (let i = 0; i < products.length; i++) {
+            const productType = products[i].node.productType;
+            if (productType) {
+              const updatedOption = { value: productType.toLowerCase(), label: productType, checked: false };
+              // Check if option already exists in the filter
+              if (!acc.some((opt) => opt.value === updatedOption.value)) {
+                acc.push(updatedOption);
+              }
+            }
+          }
+          // If no matching product is found, update option with 'others'
+          const othersOption = { value: 'others', label: 'Others', checked: false };
+          if (!acc.some((opt) => opt.value === othersOption.value)) {
+            acc.push(othersOption);
+          }
+          return acc;
+        }, [])
+        return { ...filter, options: updatedOptions }
+      } else {
+        return filter
+      }
+    })
+    setFilters(updatedFilters);
   };
 
-  const handleSortOptionClick = async (option_key) => {
+  const handleCategoryOnchange = async (filter_option, filter_id, event_checked) => {
+    console.log("event_checked::", event_checked)
+    const updatedFilters = filters.map(filter => {
+      if (filter.id === filter_id) {
+        const updatedOptions = filter.options.map(option => {
+          if (option.value === filter_option.value) {
+            return { ...option, checked: event_checked };
+          } else {
+            return option;
+          }
+        });
+        return { ...filter, options: updatedOptions };
+      } else {
+        return filter;
+      }
+    });
+    setFilters(updatedFilters);
+
+    filterProductsByCategories(updatedFilters, filter_id);
+  }
+
+  const resetCategoryFilter = (filter_id) => {
+    // set to false
+    const updatedFilters = filters.map(filter => {
+      if (filter.id === filter_id) {
+        const updatedOptions = filter.options.map(option => {
+          return { ...option, checked: false };
+        });
+        return { ...filter, options: updatedOptions };
+      } else {
+        return filter;
+      }
+    });
+    console.log(updatedFilters);
+    setFilters(updatedFilters);
+  }
+
+  const filterProductsByCategories = (_filters, filter_id) => {
+    const fltr = _filters.filter((data) => data.id == filter_id);
+    if(fltr.length > 0){
+      var selectedOptions = fltr[0].options.filter(option => option.checked === true).map(option => (option.label == "Others") ? '' : option.label);
+      console.log("selectedOptions::", selectedOptions);
+      if (selectedOptions.length > 0){
+        var filteredProducts = globalProducts.filter((product) => ( selectedOptions.includes(product.node.productType) ));
+        setProducts(filteredProducts);
+      } else {
+        setProducts(globalProducts);
+      }
+    }
+  }
+
+  const handleSortOptionClick = (option_key) => {
     const newSortOptions = sortOptions.map(option => {
       return {...option, current: (option.key === option_key) }
     });
     setSortOptions(newSortOptions);
-    handleCategoryClick(selectedCollection, option_key);
+    handleCollectionClick(selectedCollection, option_key);
+    resetCategoryFilter('category');
   };
 
   useEffect(() => {
-    handleCategoryClick((selectedCollection != null) ? selectedCollection : collections[0]);
+    handleCollectionClick((selectedCollection != null) ? selectedCollection : collections[0]);
   }, [selectedCollection]);
 
   return (
@@ -140,7 +198,7 @@ const ShopNew = ({ collections }) => {
                   <h3 className="sr-only">Collections</h3>
                   <ul role="list" className="px-2 py-3 font-medium text-gray-900">
                     {collections.map((collection, i) => (
-                      <li key={i} onClick={() => handleCategoryClick(collection)}>
+                      <li key={i} onClick={() => handleCollectionClick(collection)}>
                         <a href="#" className="block px-2 py-3">
                           {collection.node.title}
                         </a>
@@ -173,7 +231,8 @@ const ShopNew = ({ collections }) => {
                                     name={`${section.id}[]`}
                                     defaultValue={option.value}
                                     type="checkbox"
-                                    defaultChecked={option.checked}
+                                    checked={option.checked}
+                                    onChange={(event) => handleCategoryOnchange(option, section.id, event.target.checked) }
                                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                   />
                                   <label
@@ -271,7 +330,7 @@ const ShopNew = ({ collections }) => {
               <h3 className="sr-only">Categories</h3>
               <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900 dark:text-white">
                 {collections.map((collection, i) => (
-                  <li key={i} onClick={() => handleCategoryClick(collection)}>
+                  <li key={i} onClick={() => handleCollectionClick(collection)}>
                     <a href="#">{collection.node.title}</a>
                   </li>
                 ))}
@@ -302,7 +361,8 @@ const ShopNew = ({ collections }) => {
                                 name={`${section.id}[]`}
                                 defaultValue={option.value}
                                 type="checkbox"
-                                defaultChecked={option.checked}
+                                checked={option.checked}
+                                onChange={(event) => handleCategoryOnchange(option, section.id, event.target.checked) }
                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                               />
                               <label
