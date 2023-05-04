@@ -10,12 +10,8 @@ import Link from 'next/link';
 import { GiAmpleDress } from 'react-icons/gi';
 import { CiShirt } from 'react-icons/ci';
 
-type Props = {
-    heading: string,
-    message: string
-}
 
-const Slider: React.FC<Props> = ({heading, message}) => {
+const Slider = ({heading, message}) => {
 
     const [data, setData] = useState([]);
     const slider = [];
@@ -53,7 +49,7 @@ const Slider: React.FC<Props> = ({heading, message}) => {
                             <Image src={d.node.image.url} alt={(d.node.image.altText != null) ? d.node.image.altText : d.node.title} className="w-full h-screen hidden lg:block object-cover" width={200} height={160} sizes="(max-width: 768px) 100vh, " />
                             <Image src={d.node.image.url} alt={(d.node.image.altText != null) ? d.node.image.altText : d.node.title} className="hidden sm:block lg:hidden w-full h-screen object-cover" width={200} height={160} sizes="(max-width: 768px) 100vh, " />
                             <Image src={d.node.image.url} alt={(d.node.image.altText != null) ? d.node.image.altText : d.node.title} className="sm:hidden w-full h-screen object-cover" width={200} height={160} sizes="(max-width: 768px) 100vh, " />
-                            <div class="absolute inset-0 bg-black opacity-20"></div>
+                            <div className="absolute inset-0 bg-black opacity-20"></div>
                             
                             <div className='absolute mt-[10rem] z-[10] items-center justify-between w-full'>
                                 <div className='w-80'></div>
