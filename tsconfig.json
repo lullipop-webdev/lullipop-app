@@ -19,6 +19,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx","pages/**/*"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx","pages/**/*", "components/Slide.js"],
   "exclude": ["node_modules"]
 }
