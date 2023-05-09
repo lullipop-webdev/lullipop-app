@@ -4,7 +4,7 @@ import SingleProductPage from '../../components/SingleProductPage';
 
 export default function ProductPage({product}) {
     return (
-        <div className=" mt-6 bg-white dark:bg-black min-h-screen py-12 sm:pt-20">
+        <div className="bg-white dark:bg-black min-h-screen">
           <ProductPageContent product={product} />
           {/* <SingleProductPage /> */}
         </div>
