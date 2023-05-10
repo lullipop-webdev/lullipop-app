@@ -6,6 +6,7 @@ import axios from "axios"
 import useSWR from 'swr'
 import Image from "next/image"
 import Link from "next/link"
+import StarRating from "./StarRating"
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { BiPlus, BiMinus } from 'react-icons/bi';
@@ -116,7 +117,7 @@ export default function ProductForm({ product }) {
   const collectionOptions = []
   product.collections.edges[0].node.products.edges.map((collection, i) => {
     collectionOptions.push(
-      <div className="min-width-full min-h-full">
+      <div className="min-width-full min-h-full" key={'image-' + i}>
         <Link href={collection.node.handle}>
           <Image src={collection.node.images.edges[0].node.url} alt={collection.node.images.edges[0].node.altText} width={100} height={90} className='object-fill rounded-xl'/>
         </Link>
@@ -162,7 +163,7 @@ export default function ProductForm({ product }) {
           <div className="absolute border-gray-500 transform w-full border-2"></div>
         </div>
 
-        <div className="flex flex-wrap mb-12 pt-12">
+        <div className="flex flex-wrap mb-6 lg:mb-12 pt-12">
           <div className="grow-0 shrink-0 basis-auto w-full lg:w-6/12 lg:pr-6 mb-6 lg:mb-0">
             <div className="relative overflow-hidden bg-no-repeat bg-cover ripple shadow-lg">
               <Swiper
@@ -257,7 +258,7 @@ export default function ProductForm({ product }) {
           </div>
         </div>
 
-        <div className="flex items-center pt-12 pb-6 relative">
+        <div className="flex items-center pt-6 lg:pt-12 pb-6 relative">
           <h1 className="text-2xl uppercase inline-block bg-white dark:bg-black z-10 pr-10 text-dark dark:text-white">Product Description</h1>
           <div className="absolute border-gray-500 transform w-full border-2"></div>
         </div>
@@ -268,6 +269,43 @@ export default function ProductForm({ product }) {
         <div className="flex items-center py-12 relative">
           <h1 className="text-2xl uppercase inline-block bg-white dark:bg-black z-10 pr-10 text-dark dark:text-white">Reviews</h1>
           <div className="absolute border-gray-500 transform w-full border-2"></div>
+        </div>
+
+        <div className="flex flex-wrap px-2 xl:px-24">
+          <div className="w-full xl:w-1/2 px-2 xl:px-24">
+            <h1 className="text-dark text-center dark:text-white text-4xl mb-8">Recommendations (245)</h1>
+            <StarRating size={80} rate={0}/>
+          </div>
+
+          <div className="w-full xl:w-1/2 px-2 xl:px-24 mt-8 xl:mt-0 flex flex-col gap-4">
+            <div className="block">
+              <label htmlFor="fit" className=" mb-2 text-2xl font-medium text-gray-900 dark:text-white uppercase ">FIT</label>
+              <input type="range" id="fit" name="fit" min="1" max="5" className="w-full h-2 bg-black rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
+              <div className="flex justify-between text-sm text-gray-500 uppercase">
+                <span>Too Tight</span>
+                <span>Perfect</span>
+                <span>Too Large</span>
+              </div>
+            </div>
+            <div className="block">
+              <label htmlFor="sizing" className=" mb-2 text-2xl font-medium text-gray-900 dark:text-white uppercase ">Sizing</label>
+              <input type="range" id="sizing" name="sizing" min="1" max="5" className="w-full h-2 bg-black rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
+              <div className="flex justify-between text-sm text-gray-500 uppercase">
+                <span>Runs Small</span>
+                <span>True to size</span>
+                <span>Runs Big</span>
+              </div>
+            </div>
+            <div className="block">
+              <label htmlFor="quality" className=" mb-2 text-2xl font-medium text-gray-900 dark:text-white uppercase ">Quality</label>
+              <input type="range" id="quality" name="quality" min="1" max="5" className="w-full h-2 bg-black rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
+              <div className="flex justify-between text-sm text-gray-500 uppercase">
+                <span>Delicate</span>
+                <span>Well made</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </section>
