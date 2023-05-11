@@ -159,7 +159,7 @@ export default function ProductForm({ product }) {
       <section className="mb-32 text-gray-800 pt-12">
 
         <div className="flex items-center relative">
-          <h1 className="text-3xl uppercase inline-block bg-white dark:bg-black z-10 pr-10 text-dark font-semibold dark:text-white">Shop Triangle Set</h1>
+          <h1 className="text-3xl uppercase inline-block bg-white dark:bg-black z-10 pr-10 text-dark font-semibold dark:text-white">Shop</h1>
           <div className="absolute border-gray-500 transform w-full border-2"></div>
         </div>
 
@@ -272,7 +272,7 @@ export default function ProductForm({ product }) {
         </div>
 
         <div className="flex flex-wrap px-2 xl:px-24">
-          <div className="w-full xl:w-1/2 px-2 xl:px-24">
+          <div className="flex flex-col justify-center px-2 w-full xl:px-24 xl:w-1/2">
             <h1 className="text-dark text-center dark:text-white text-4xl mb-8">Recommendations (245)</h1>
             <StarRating size={80} rate={0}/>
           </div>
@@ -307,7 +307,6 @@ export default function ProductForm({ product }) {
           </div>
 
         </div>
-
       </section>
     </div>
   )

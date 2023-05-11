@@ -3,6 +3,7 @@ import ProductForm from './ProductForm'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { Navigation, Pagination } from 'swiper'
 import RecommendedList from './RecommendedList'
+import ReviewList from "./ReviewList"
 import 'swiper/css';
 import 'swiper/css/navigation';
 
@@ -24,7 +25,7 @@ SwiperCore.use([Navigation, Pagination])
   return (
     <div>
       <ProductForm product={product} />
-      
+      <ReviewList />
       <RecommendedList current={product.id} products={product.collections.edges[0].node.products.edges} />
     </div>
   )
