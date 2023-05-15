@@ -141,13 +141,13 @@ export default function ProductForm({ product }) {
       <nav className="flex flex-col" aria-label="Breadcrumb">
         <ol className="inline-flex items-left space-x-1 md:space-x-3">
           <li className="inline-flex items-center">
-            <a href="/" className="inline-flex items-center text-sm font-medium text-dark hover:text-blue-600 dark:text-white dark:hover:text-white">
+            <Link href="/" className="inline-flex items-center text-sm font-medium text-dark hover:text-blue-600 dark:text-white dark:hover:text-white">
               Home
-            </a>
+            </Link>
           </li>
           <span className="mx-2 dark:text-white">/</span>
           <li className="flex items-center">
-            <a href="/shop" className="ml-1 text-sm font-medium text-dark hover:text-blue-600 md:ml-2 dark:text-white dark:hover:text-white">Shop</a>
+            <Link href="/shop" className="ml-1 text-sm font-medium text-dark hover:text-blue-600 md:ml-2 dark:text-white dark:hover:text-white">Shop</Link>
           </li>
           <span className="mx-2 dark:text-white">/</span>
           <li aria-current="page" className="flex items-center">
