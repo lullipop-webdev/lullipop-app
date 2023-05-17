@@ -168,13 +168,14 @@ export default function Navbar() {
                 </Menu.Items>
               </Transition>
             </Menu>
-            <a 
+            <Link 
+              href="void:javascript(0)"
               className="text-md font-bold cursor-pointer"
               onClick={() => setCartOpen(!cartOpen)}
             >
               <HiShoppingBag size="2rem" />
               
-            </a>
+            </Link>
             ({cartQuantity})
             {renderThemeChanger()}
             <MiniCart cart={cart} />
