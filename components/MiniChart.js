@@ -63,7 +63,7 @@ export default function MiniCart({ cart }) {
                             onClick={() => setCartOpen(false)}
                           >
                             <span className="sr-only">Close panel</span>
-                            <i class="fa-thin fa-house" className="h-6 w-6 text-black dark:text-white" aria-hidden="true" />
+                            <i className="h-6 w-6 text-black dark:text-white fa-thin fa-house" aria-hidden="true" />
                           </button>
                         </div>
                       </div>
