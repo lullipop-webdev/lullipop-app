@@ -116,7 +116,7 @@ const Cart = () => {
               <div>
                 <div className='flex items-end mb-3' style={{justifyContent: 'flex-end'}}>
                   <h2>Subtotal</h2>
-                  <span className='ml-4 text-xl'>$50.00 USD</span>
+                  <span className='ml-4 text-xl'>{formatter.format(cartTotal)}</span>
                 </div>
                 <small>Taxes and shipping calculated at checkout</small>
               </div>
