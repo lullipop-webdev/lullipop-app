@@ -6,7 +6,7 @@ import { formatter } from '../utlis/helpers'
 import Link from 'next/link';
 
 const Cart = () => {
-  const { cart, cartOpen, setCartOpen, checkoutId, checkoutUrl, removeCartItem } = useContext(CartContext);
+  const { cart, cartOpen, setCartOpen, checkoutId, checkoutUrl, removeCartItem, incrementCartItem, decrementCartItem } = useContext(CartContext);
 
   let cartTotal = 0
   cart.map(item => {
@@ -51,7 +51,9 @@ const Cart = () => {
                           <span className="dark:text-white text-gray-500 mt-2">{product.variantTitle}</span>
                           <div className="flex items-center w-1/4 mt-2 md:hidden">
                             <div className='border flex justify-center items-center h-10 px-6'>
-                              <button className="w-8 h-full text-dark dark:text-white focus:outline-none" onClick={() => {}}>
+                              <button className="w-8 h-full text-dark dark:text-white focus:outline-none" onClick={() => {
+                                decrementCartItem(product)
+                              }}>
                                 <BiMinus className="h-4 w-6 fill-current" size={12}/>
                               </button>
                               <input
@@ -64,7 +66,9 @@ const Cart = () => {
                                 max={99}
                                 readOnly
                               />
-                              <button className="w-1/4 h-full text-dark dark:text-white focus:outline-none" onClick={() => {}}>
+                              <button className="w-1/4 h-full text-dark dark:text-white focus:outline-none" onClick={() => {
+                                incrementCartItem(product)
+                              }}>
                                 <BiPlus className="h-4 w-6 fill-current" size={12}/>
                               </button>
                             </div>
@@ -76,7 +80,9 @@ const Cart = () => {
                     <td className="pt-8 w-1/3 hidden md:block">
                       <div className="flex items-center w-1/4">
                         <div className='border flex justify-center items-center h-14 px-6'>
-                          <button className="w-8 h-full text-dark dark:text-white focus:outline-none" onClick={() => {}}>
+                          <button className="w-8 h-full text-dark dark:text-white focus:outline-none" onClick={() => {
+                            decrementCartItem(product)
+                          }}>
                             <BiMinus className="h-6 w-6 fill-current" size={24}/>
                           </button>
                           <input
@@ -89,7 +95,9 @@ const Cart = () => {
                             max={99}
                             readOnly
                           />
-                          <button className="w-1/4 h-full text-dark dark:text-white focus:outline-none" onClick={() => {}}>
+                          <button className="w-1/4 h-full text-dark dark:text-white focus:outline-none" onClick={() => {
+                            incrementCartItem(product)
+                          }}>
                             <BiPlus className="h-6 w-6 fill-current" size={24}/>
                           </button>
                         </div>
@@ -108,7 +116,7 @@ const Cart = () => {
               </tbody>
             </table>
           </div>
-          <Link href="#" className="flex font-semibold text-pink-400 text-sm mt-10">
+          <Link href="/shop" className="flex font-semibold text-pink-400 text-sm mt-10">
             <svg className="fill-current mr-2 text-pink-400 w-4" viewBox="0 0 448 512"><path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"/></svg>
             Continue Shopping
           </Link>
