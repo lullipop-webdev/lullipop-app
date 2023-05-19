@@ -93,7 +93,9 @@ const Cart = () => {
                             <BiPlus className="h-6 w-6 fill-current" size={24}/>
                           </button>
                         </div>
-                        <Link href="#" className="hover:text-gray-500 ml-4"><BiTrash size={16}/></Link>
+                        <Link href="#" onClick={ () => {
+                          removeCartItem(product.id);
+                        }} className="hover:text-gray-500 ml-4"><BiTrash size={16}/></Link>
                       </div>
                     </td>
                     <td className="pt-8 w-1/3 text-right">
@@ -118,10 +120,12 @@ const Cart = () => {
                   <h2>Subtotal</h2>
                   <span className='ml-4 text-xl'>{formatter.format(cartTotal)}</span>
                 </div>
-                <small>Taxes and shipping calculated at checkout</small>
+                <small className="flex" style={{justifyContent: 'flex-end'}}>Taxes and shipping calculated at checkout</small>
               </div>
-              <div className='mt-3'>
-                <button className="bg-pink-400 font-semibold hover:bg-gray-600 py-3 text-sm text-white uppercase w-full">Checkout</button>
+              <div className='mt-3 flex' style={{justifyContent: 'flex-end'}}>
+                <Link href={(checkoutUrl) ? checkoutUrl : '#'} className="block text-center px-32 bg-pink-400 font-semibold hover:bg-gray-600 py-3 text-white uppercase">
+                  Checkout
+                </Link>
               </div>
             </div>
           </div>
