@@ -230,7 +230,10 @@ export default function Navbar() {
                       </li>
                       <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
                         <Link href='/work'>Lullifit</Link>
-                      </li>            
+                      </li>       
+                      <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
+                        <Link href='/cart'>Cart</Link>
+                      </li>        
                     </ul>
                   </Dialog.Panel>
 
