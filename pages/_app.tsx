@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import ShopProvider from '@/context/shopContext'
 import { AuthProvider } from '../context/AuthContext'
 import { ThemeProvider } from 'next-themes'
-
+import { AddressProvider } from '@/context/AddressContext'
 
 
 
@@ -13,13 +13,15 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   return( 
     <AuthProvider>
-      <ThemeProvider enableSystem={true} attribute="class">
-        <ShopProvider>
-          <Layout>
-            <Component {...pageProps} key={router.asPath}/>
-          </Layout>
-        </ShopProvider>
-      </ThemeProvider>
+      <AddressProvider>
+        <ThemeProvider enableSystem={true} attribute="class">
+          <ShopProvider>
+            <Layout>
+              <Component {...pageProps} key={router.asPath}/>
+            </Layout>
+          </ShopProvider>
+        </ThemeProvider>
+      </AddressProvider>
     </AuthProvider>
   )
 }

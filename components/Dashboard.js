@@ -9,7 +9,7 @@ export default function Dashboard({children}) {
 
     return (
         <ProtectRoute>
-            <div className=" min-h-fit flex flex-row justify-start mx-12 xl:ml-64 ">
+            <div className=" min-h-fit flex flex-row justify-start mx-2 xl:ml-32 ">
                 <Sidebar customer={user} />
                 <div className="bg-primary flex-1 p-4 text-white">
                     {children}

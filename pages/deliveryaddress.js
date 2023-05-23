@@ -5,6 +5,7 @@ import EditAddressForm from '@/components/EditAddressForm'
 import DeliveryAddressForm from '@/components/DeliveryAddressForm'
 import { getCustomerAddresses, getCustomerDefaultAddress } from '@/lib/Shopify'
 import { AiOutlineCheckCircle } from 'react-icons/ai'
+import { useAddressContext } from '../context/AddressContext'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -14,11 +15,13 @@ function classNames(...classes) {
 
 export default function DeliveryAddress() {
 
-    const [data, setData] = useState(null);
-    const [defaultAddress, setDefaultAddress] = useState(null);
+    const {addresses, defaultAddress} = useAddressContext();
+
     const [isOpen, setIsOpen] = useState(false);
     const [addressId, setAddressId] = useState('')
     const [selected, setSelected] = useState()
+
+    
     
     function closeModal() {
       setIsOpen(false);
@@ -28,25 +31,11 @@ export default function DeliveryAddress() {
       setIsOpen(true)
     }
 
-    console.log(addressId)
-    
-    useEffect(() => {
-      const accessToken = localStorage.getItem('accessToken');
-
-      getCustomerAddresses(accessToken).then((data) => {
-          setData(data)
-      })
-
-      getCustomerDefaultAddress(accessToken).then((data) => {
-        setDefaultAddress(data.id);
-      })
-      
-    
-    }, [])
 
       return (
         <Dashboard>
-          <EditAddressForm open={isOpen} closeModal={closeModal} addresses={data}  addressId={addressId}/>
+          
+          <EditAddressForm open={isOpen} closeModal={closeModal} addresses={addresses}  addressId={addressId}/>
           <div className="w-full max-w-xl py-6 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20">
@@ -89,7 +78,7 @@ export default function DeliveryAddress() {
                     )}
                   >
                     <ul>
-                        {defaultAddress && data && data.map((address) => (
+                        {defaultAddress && addresses && addresses.map((address) => (
                           <li
                           key={address.id.slice(29,41)}
                           className="relative rounded-md flex flex-row justify-evenly text-black dark:text-white mb-3 h-14 px-4 py-3"
@@ -99,7 +88,7 @@ export default function DeliveryAddress() {
                               {address.formatted}
                             </h3>
 
-                            {address.id.slice(28,41) === defaultAddress.slice(28,41) &&
+                            {address.id.slice(28,41) === defaultAddress.id.slice(28,41) &&
                               <AiOutlineCheckCircle size={"lg"} />
                             }
                             
@@ -129,6 +118,7 @@ export default function DeliveryAddress() {
               </Tab.Panels>
             </Tab.Group>
           </div>
+          
         </Dashboard>
       )
 }

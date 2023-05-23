@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { customerAddressCreate, markAsCustomerDefaultAddress } from "../lib/Shopify";
 import Modal from "./Modal";
 import { Switch } from '@headlessui/react'
+import Router from 'next/router'
 
 
 export default function DeliveryAddressForm({accessToken}) {
@@ -48,6 +49,7 @@ export default function DeliveryAddressForm({accessToken}) {
                     if(response.data.customerAddressCreate.customerAddress !== null) {
                         setIsOpen(true);
                         setError(false);
+                        Router.reload(window.location.pathname)
                     }    
     
                     if(response.data.customerAddressCreate.customerUserErrors) {
@@ -100,7 +102,7 @@ export default function DeliveryAddressForm({accessToken}) {
                     </label>
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="" name="zip" onChange={e => setZip(e.target.value)} />
                     </div>
-                </div>
+                </div>  
                 <p className="text-red-500 text-xs italic">{error}</p>
 
                 <div className="md:flex md:items-center mb-6">
