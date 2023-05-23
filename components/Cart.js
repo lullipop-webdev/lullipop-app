@@ -131,7 +131,7 @@ const Cart = () => {
                 <small className="flex" style={{justifyContent: 'flex-end'}}>Taxes and shipping calculated at checkout</small>
               </div>
               <div className='mt-3 flex' style={{justifyContent: 'flex-end'}}>
-                <Link onClick={() => { handleStepChange('shippingBilling') }} href='#' className="block text-center px-32 bg-pink-400 font-semibold hover:bg-gray-600 py-3 text-white uppercase">
+                <Link href={checkoutUrl} className="block text-center px-32 bg-pink-400 font-semibold hover:bg-gray-600 py-3 text-white uppercase">
                   Place Order
                 </Link>
               </div>
