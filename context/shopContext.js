@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react'
-import { createCheckout, updateCheckout, getCustomerDetails, getCustomerDefaultAddress } from '../lib/Shopify'
+import { createCheckout, updateCheckout, getCustomerDetails, getCustomerDefaultAddress, createCart } from '../lib/Shopify'
 
 const CartContext = createContext()
 
@@ -168,6 +168,21 @@ export default function ShopProvider({ children }) {
 
   }
 
+  async function createCartAndGetCheckoutURL() {
+    if(localStorage.checkout_id == undefined){
+      return;
+    }
+    const cartObject = JSON.parse(localStorage.checkout_id)
+    let items = cartObject[0];
+    items = items.map((item) => {
+      return {
+        merchandiseId: item.id,
+        quantity: item.variantQuantity,
+      };
+    });
+    const data = await createCart(JSON.stringify(items).replace(/"([^"]+)":/g, (match, p1) => `${p1}:`));
+    setCheckoutUrl(data.checkoutUrl);
+  }
 
   return (
     <CartContext.Provider value={{
@@ -180,7 +195,8 @@ export default function ShopProvider({ children }) {
       clearCart,
       cartLoading,
       incrementCartItem,
-      decrementCartItem
+      decrementCartItem,
+      createCartAndGetCheckoutURL,
     }}>
       {children}
     </CartContext.Provider>

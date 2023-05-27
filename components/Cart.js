@@ -6,8 +6,8 @@ import { formatter } from '../utlis/helpers'
 import Link from 'next/link';
 
 const Cart = () => {
-  const { cart, cartOpen, setCartOpen, checkoutId, checkoutUrl, removeCartItem, incrementCartItem, decrementCartItem } = useContext(CartContext);
-
+  const { cart, cartOpen, setCartOpen, checkoutId, checkoutUrl, removeCartItem, incrementCartItem, decrementCartItem, createCartAndGetCheckoutURL } = useContext(CartContext);
+  const [checkoutParam, setCheckoutParam] = useState("");
   let cartTotal = 0
   cart.map(item => {
     cartTotal += item?.variantPrice * item?.variantQuantity
@@ -17,6 +17,24 @@ const Cart = () => {
   cart.map((item) => {
     return (cartQuantity += item?.variantQuantity)
   })
+
+  const params = { redirect: 'deliveryaddress', redirect_next: 'cart' };
+  const href = {
+    pathname: '/signup',
+    query: params,
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const cartObject = JSON.parse(localStorage.checkout_id)
+      let items = cartObject[0];
+      let accessToken = localStorage.getItem('accessToken');
+      // user not login 
+      if(!accessToken && items.length > 0){
+        createCartAndGetCheckoutURL();
+      }
+    }
+  }, []);
 
   return (
     <div className="container mx-auto dark:bg-black">
@@ -131,7 +149,7 @@ const Cart = () => {
                 <small className="flex" style={{justifyContent: 'flex-end'}}>Taxes and shipping calculated at checkout</small>
               </div>
               <div className='mt-3 flex' style={{justifyContent: 'flex-end'}}>
-                <Link href={checkoutUrl} className="block text-center px-32 bg-pink-400 font-semibold hover:bg-gray-600 py-3 text-white uppercase">
+                <Link href={checkoutUrl ? checkoutUrl : href } className="block text-center px-32 bg-pink-400 font-semibold hover:bg-gray-600 py-3 text-white uppercase">
                   Place Order
                 </Link>
               </div>
