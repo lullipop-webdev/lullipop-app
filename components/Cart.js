@@ -18,20 +18,20 @@ const Cart = () => {
     return (cartQuantity += item?.variantQuantity)
   })
 
-  const params = { redirect: 'deliveryaddress', redirect_next: 'cart' };
   const href = {
-    pathname: '/signup',
-    query: params,
+    pathname: '/signup'
   };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const cartObject = JSON.parse(localStorage.checkout_id)
-      let items = cartObject[0];
-      let accessToken = localStorage.getItem('accessToken');
-      // user not login 
-      if(!accessToken && items.length > 0){
-        createCartAndGetCheckoutURL();
+      if(localStorage.getItem('checkout_id') != null){
+        const cartObject = JSON.parse(localStorage.checkout_id)
+        let items = cartObject[0];
+        let accessToken = localStorage.getItem('accessToken');
+        // user not login 
+        if(!accessToken && items.length > 0){
+          createCartAndGetCheckoutURL();
+        }
       }
     }
   }, []);
