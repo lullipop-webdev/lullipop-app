@@ -77,8 +77,14 @@ export default function ShopProvider({ children }) {
       const checkout = await createCheckout(newItem.id, qty, data, defaultAddress)
       setCheckoutId(checkout.id)
       setCheckoutUrl(checkout.webUrl)
-
+      console.log("checkout:: ", checkout);
       localStorage.setItem("checkout_id", JSON.stringify([newItem, checkout]))
+
+      // user not login
+      const accessToken = localStorage.getItem('accessToken');
+      if(accessToken == null){
+        createCartAndGetCheckoutURL();
+      }
     } else {
       let newCart = []
       let added = false
@@ -182,12 +188,21 @@ export default function ShopProvider({ children }) {
       setCheckoutUrl("");
       return;
     }
-    items = items.map((item) => {
-      return {
-        merchandiseId: item.id,
-        quantity: item.variantQuantity,
-      };
-    });
+
+    if (Array.isArray(items)) {
+      items = items.map((item) => {
+        return {
+          merchandiseId: item.id,
+          quantity: item.variantQuantity,
+        };
+      });
+    } else {
+      // Handle the case when items is not an array
+      items = [{
+        merchandiseId: items.id,
+        quantity: items.variantQuantity
+      }]
+    }    
 
     let accessToken = localStorage.getItem('accessToken');
     // user not login 
