@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ProductChoices() {
 
@@ -30,7 +31,7 @@ export default function ProductChoices() {
         <div className="flex flex-col">
             <div className="flex flex-row w-full justify-between mt-2 mb-2">
                 <p className="text-xs">Color: WFU Inspired Black and Gold Set</p>
-                <a href="#" className="text-xs text-pink-400 underline">Size Guide</a>
+                <Link href="#" className="text-xs text-pink-400 underline">Size Guide</Link>
             </div>
             <div className="flex flex-row w-full bg-zinc-800 border space-x-4 shadow-lg rounded-2xl mb-2 md:w-1/6">
                 {colors}

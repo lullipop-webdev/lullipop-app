@@ -6,6 +6,7 @@ import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from
 import { useRouter } from "next/router";
 import ProductCard from "./ProductCard";
 import { getProductsInCollection } from "@/lib/Shopify";
+import Link from 'next/link';
 
 var sortOptionsList = [
   { name: 'Most Popular',       href: '#', key: 'BEST_SELLING', current: false },
@@ -199,9 +200,9 @@ const ShopNew = ({ collections }) => {
                   <ul role="list" className="px-2 py-3 font-medium text-gray-900">
                     {collections.map((collection, i) => (
                       <li key={i} onClick={() => handleCollectionClick(collection)}>
-                        <a href="#" className="block px-2 py-3">
+                        <Link href="#" className="block px-2 py-3">
                           {collection.node.title}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -256,7 +257,8 @@ const ShopNew = ({ collections }) => {
         </Dialog>
       </Transition.Root>
 
-      <main className="px-4 sm:px-6 lg:px-8">
+      <main className="container mx-auto
+       px-4 sm:px-6 lg:px-8">
         <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
           <h1 className="text-4xl font-bold tracking-tight dark:text-white text-gray-900">Shop</h1>
 
@@ -331,7 +333,7 @@ const ShopNew = ({ collections }) => {
               <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900 dark:text-white">
                 {collections.map((collection, i) => (
                   <li key={i} onClick={() => handleCollectionClick(collection)}>
-                    <a href="#">{collection.node.title}</a>
+                    <Link href="#">{collection.node.title}</Link>
                   </li>
                 ))}
               </ul>

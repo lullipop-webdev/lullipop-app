@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import Link from "next/link";
 
 const navigation = [
     { name: 'Terms and Conditions', href: '#' },
@@ -29,9 +30,9 @@ const navigation = [
             {
               navigation.map((item, i) => (
                 <div key={i} className={`px-4 py-2 text-xs ${(i+1 < navigation.length) ? 'border-r' : ''} border-gray-500 dark:border-white`}>
-                  <a href={item.href} className="text-gray-500 dark:text-white hover:text-white">
+                  <Link href={item.href} className="text-gray-500 dark:text-white hover:text-white">
                     {item.name}
-                  </a>
+                  </Link>
                 </div>
               ))
             }
