@@ -1,4 +1,4 @@
-import { Fragment, useContext, useRef } from 'react'
+import { Fragment, useContext, useRef, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
 import Image from 'next/image'
@@ -10,13 +10,20 @@ import Link from 'next/link'
 
 export default function MiniCart({ cart }) {
   const cancelButtonRef = useRef()
-  const { cartOpen, setCartOpen, checkoutUrl, removeCartItem} = useContext(CartContext)
+  const { cartOpen, setCartOpen, checkoutUrl, removeCartItem, createCartAndGetCheckoutURL} = useContext(CartContext)
 
     let cartTotal = 0
     cart.map(item => {
       cartTotal += item?.variantPrice * item?.variantQuantity
 
     })
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      createCartAndGetCheckoutURL();
+    }
+  }, []);
+  
 
   return (
     <Transition.Root show={cartOpen} as={Fragment}>

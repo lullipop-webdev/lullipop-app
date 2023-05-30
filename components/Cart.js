@@ -24,15 +24,7 @@ const Cart = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      if(localStorage.getItem('checkout_id') != null){
-        const cartObject = JSON.parse(localStorage.checkout_id)
-        let items = cartObject[0];
-        let accessToken = localStorage.getItem('accessToken');
-        // user not login 
-        if(!accessToken && items.length > 0){
-          createCartAndGetCheckoutURL();
-        }
-      }
+      createCartAndGetCheckoutURL();
     }
   }, []);
 
