@@ -77,8 +77,14 @@ export default function ShopProvider({ children }) {
       const checkout = await createCheckout(newItem.id, qty, data, defaultAddress)
       setCheckoutId(checkout.id)
       setCheckoutUrl(checkout.webUrl)
-
+      console.log("checkout:: ", checkout);
       localStorage.setItem("checkout_id", JSON.stringify([newItem, checkout]))
+
+      // user not login
+      const accessToken = localStorage.getItem('accessToken');
+      if(accessToken == null){
+        createCartAndGetCheckoutURL();
+      }
     } else {
       let newCart = []
       let added = false
@@ -98,6 +104,7 @@ export default function ShopProvider({ children }) {
       setCart(newCart)
       const newCheckout = await updateCheckout(checkoutId, newCart)
       localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
+      createCartAndGetCheckoutURL();
     }
   }
 
@@ -115,6 +122,7 @@ export default function ShopProvider({ children }) {
     if (cart.length === 1) {
       setCartOpen(false)
     }
+    createCartAndGetCheckoutURL();
   }
 
   async function incrementCartItem(item) {
@@ -133,6 +141,7 @@ export default function ShopProvider({ children }) {
 
     localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
     setCartLoading(false)
+    createCartAndGetCheckoutURL();
   }
 
   async function decrementCartItem(item) {
@@ -155,6 +164,7 @@ export default function ShopProvider({ children }) {
       localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
     }
     setCartLoading(false)
+    createCartAndGetCheckoutURL();
   }
 
   async function clearCart() {
@@ -174,14 +184,32 @@ export default function ShopProvider({ children }) {
     }
     const cartObject = JSON.parse(localStorage.checkout_id)
     let items = cartObject[0];
-    items = items.map((item) => {
-      return {
-        merchandiseId: item.id,
-        quantity: item.variantQuantity,
-      };
-    });
-    const data = await createCart(JSON.stringify(items).replace(/"([^"]+)":/g, (match, p1) => `${p1}:`));
-    setCheckoutUrl(data.checkoutUrl);
+    if(items.length == 0){
+      setCheckoutUrl("");
+      return;
+    }
+
+    if (Array.isArray(items)) {
+      items = items.map((item) => {
+        return {
+          merchandiseId: item.id,
+          quantity: item.variantQuantity,
+        };
+      });
+    } else {
+      // Handle the case when items is not an array
+      items = [{
+        merchandiseId: items.id,
+        quantity: items.variantQuantity
+      }]
+    }    
+
+    let accessToken = localStorage.getItem('accessToken');
+    // user not login 
+    if(!accessToken && items.length > 0){
+      const data = await createCart(JSON.stringify(items).replace(/"([^"]+)":/g, (match, p1) => `${p1}:`));
+      setCheckoutUrl(data.checkoutUrl);
+    }
   }
 
   return (
