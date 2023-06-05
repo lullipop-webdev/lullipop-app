@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {customerAddressUpdate, getCustomerAddresses, markAsCustomerDefaultAddress} from '../lib/Shopify'
 import { Switch } from '@headlessui/react'
+import Router from 'next/router'
 
 
 export default function EditAddressForm({open, closeModal, addresses, addressId}) {
@@ -58,6 +59,7 @@ export default function EditAddressForm({open, closeModal, addresses, addressId}
                     if(response.data.customerAddressUpdate.customerAddress !== null) {
                         setError(false);
                         setSuccess("Address updated")
+                        Router.reload(window.location.pathname)
                     }    
     
                     if(response.data.customerAdressUpdate.customerUserErrors) {
