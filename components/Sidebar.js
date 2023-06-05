@@ -113,8 +113,8 @@ const Sidebar = ({customer}) => {
           {menuItems.map(({ icon: Icon, ...menu }) => {
             const classes = getNavItemClasses(menu);
             return (
-              <div className={classes}>
-                <Link href={menu.link}>
+              <div key={menu.id} className={classes}>
+                <Link  href={menu.link}>
                   <span className="flex py-4 px-3 items-center w-full h-full">
                     <Image src={Icon} alt="" width={30} height={30}></Image>
                     {!toggleCollapse && (

@@ -9,7 +9,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 
 
 
-export default function orderhistory() {
+export default function Orderhistory() {
     const [customerOrders, setCustomerOrders] = useState(null)
     const [color, setColor] = useState('transparent');
 
