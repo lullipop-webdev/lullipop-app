@@ -216,23 +216,24 @@ export default function Navbar() {
                       onClick={() => setNav(false)}
                     >
                       <span className="sr-only">Close menu</span>
-                      <XMarkIcon className="h-6 w-6 focus-outline-none" aria-hidden="true" />
+                      <XMarkIcon className="h-6 w-6 focus-outline-none hover:text-pink-500 transtion duration-300 ease-in-out" aria-hidden="true" />
                     </button>
                   </div>
 
                   <Dialog.Panel className="pt-6">
                     <ul className='px-6'>
-                      <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
+                      <li onClick={handleNav} className='p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
                         <Link href='/'>Lullipop</Link>
                       </li>
-                      <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
+                      <li onClick={handleNav} className='p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
                         <Link href='/shop'>Shop</Link>
                       </li>
-                      <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
+                      <li onClick={handleNav} className='p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
                         <Link href='/work'>Lullifit</Link>
                       </li>       
-                      <li onClick={handleNav} className='p-2 text-2xl hover:text-gray-500'>
+                      <li onClick={handleNav} className='p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
                         <Link href='/cart'>Cart</Link>
+                        <div class="py-1 px-3 bg-pink-500 rounded text-white flex items-center justify-center text-xs">{cartQuantity}</div>
                       </li>        
                     </ul>
                   </Dialog.Panel>
