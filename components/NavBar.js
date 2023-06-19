@@ -138,10 +138,10 @@ export default function Navbar() {
           <Transition.Root show={isSearchOpen} as={Fragment}>
             <Transition.Child
               as={Fragment}
-              enter="transition-translate ease-linear duration-200"
+              enter="transition-translate ease-linear duration-100"
               enterFrom="-translate-y-24"
               enterTo="translate-y-0"
-              leave="transition-translate ease-linear duration-200"
+              leave="transition-translate ease-linear duration-100"
               leaveFrom="translate-y-0"
               leaveTo="-translate-y-24"
             >
@@ -309,16 +309,16 @@ export default function Navbar() {
                   <Dialog.Panel className="pt-6">
                     <ul className='px-6'>
                       <li onClick={handleNav} className='focus:outline-none p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
-                        <Link href='/'>Lullipop</Link>
+                        <Link className='w-full' href='/'>Lullipop</Link>
                       </li>
                       <li onClick={handleNav} className='focus:outline-none p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
-                        <Link href='/shop'>Shop</Link>
+                        <Link className='w-full' href='/shop'>Shop</Link>
                       </li>
                       <li onClick={handleNav} className='focus:outline-none p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
-                        <Link href='/work'>Lullifit</Link>
+                        <Link className='w-full' href='/work'>Lullifit</Link>
                       </li>       
                       <li onClick={handleNav} className='focus:outline-none p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
-                        <Link href='/cart'>Cart</Link>
+                        <Link className='w-full' href='/cart'>Cart</Link>
                         <div class="py-1 px-3 bg-pink-500 rounded text-white flex items-center justify-center text-xs">{cartQuantity}</div>
                       </li>        
                     </ul>
