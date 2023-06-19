@@ -111,13 +111,20 @@ export default function Navbar() {
             <Image src={LulliLogo} alt="Lullipop" width={160} height={90}/>
           </Link>
           {/* Mobile Button */}
-          <div onClick={handleNav} className='block sm:z-10'>
+          {/* <div onClick={handleNav} className='block sm:z-10'>
             {nav ? (
               <AiOutlineClose size={20}/>
             ) : (
               <AiOutlineMenu size={20}  />
             )}
-          </div>  
+          </div>   */}
+
+          <div class="relative flex overflow-hidden items-center justify-center w-[50px] h-[50px] transform transition-all duration-200" onClick={handleNav}>
+            <div class="flex flex-col justify-evenly w-[20px] h-[20px] transform transition-all duration-300 origin-center overflow-hidden">
+              <div class={`bg-pink-500 h-[2px] w-7 transform transition-all duration-300 origin-left ${nav ? 'rotate-[42deg] -translate-x-[0px] -translate-y-[4px]' : ''}`}></div> 
+              <div class={`bg-pink-500 h-[2px] w-1/2 rounded transform transition-all duration-300 ${nav ? 'w-7 -rotate-[42deg] -translate-x-[5px] -translate-y-[2px]' : 'ml-auto'}`}></div>
+            </div>
+          </div>
         </div>
         {/* <div className="h-full flex px-32 min-w-full lg:min-w-[500px] lg:visible sm:invisible">
               <input type="text" placeholder='Search' style={{backgroundColor: (determiner) ? `${color}` : `none`}} className="bg-white dark:bg-black text-pink-400 border-2 border-pink-400 rounded-2xl px-8" />
@@ -210,28 +217,35 @@ export default function Navbar() {
               >
                 <Dialog.Panel className="relative flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                   <div className="flex ml-auto px-4">
-                    <button
+                    {/* <button
                       type="button"
                       className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
                       onClick={() => setNav(false)}
                     >
                       <span className="sr-only">Close menu</span>
                       <XMarkIcon className="h-6 w-6 focus-outline-none hover:text-pink-500 transtion duration-300 ease-in-out" aria-hidden="true" />
-                    </button>
+                    </button> */}
+
+                    <div class="relative flex overflow-hidden items-center justify-center w-[50px] h-[50px] transform transition-all duration-200" onClick={handleNav}>
+                      <div class="group flex flex-col justify-evenly w-[15px] h-[15px] transform transition-all duration-300 origin-center overflow-hidden">
+                        <div class={`group-hover:bg-pink-500 bg-black h-[2px] w-7 transform transition-all duration-300 origin-left ${nav ? 'rotate-[42deg] -translate-x-[0px] -translate-y-[4px]' : ''}`}></div> 
+                        <div class={`group-hover:bg-pink-500 bg-black h-[2px] w-1/2 rounded transform transition-all duration-300 ${nav ? 'w-7 -rotate-[42deg] -translate-x-[4px] -translate-y-[5px]' : 'ml-auto'}`}></div>
+                      </div>
+                    </div>
                   </div>
 
                   <Dialog.Panel className="pt-6">
                     <ul className='px-6'>
-                      <li onClick={handleNav} className='p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
+                      <li onClick={handleNav} className='focus:outline-none p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
                         <Link href='/'>Lullipop</Link>
                       </li>
-                      <li onClick={handleNav} className='p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
+                      <li onClick={handleNav} className='focus:outline-none p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
                         <Link href='/shop'>Shop</Link>
                       </li>
-                      <li onClick={handleNav} className='p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
+                      <li onClick={handleNav} className='focus:outline-none p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
                         <Link href='/work'>Lullifit</Link>
                       </li>       
-                      <li onClick={handleNav} className='p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
+                      <li onClick={handleNav} className='focus:outline-none p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
                         <Link href='/cart'>Cart</Link>
                         <div class="py-1 px-3 bg-pink-500 rounded text-white flex items-center justify-center text-xs">{cartQuantity}</div>
                       </li>        
