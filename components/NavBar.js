@@ -124,15 +124,15 @@ export default function Navbar() {
             )}
           </div>   */}
 
-          <div class="relative flex overflow-hidden items-center justify-center w-[50px] h-[50px] transform transition-all duration-200" onClick={handleNav}>
-            <div class="flex flex-col justify-evenly w-[20px] h-[20px] transform transition-all duration-300 origin-center overflow-hidden">
-              <div class={`bg-pink-500 h-[2px] w-7 transform transition-all duration-300 origin-left ${nav ? 'rotate-[42deg] -translate-x-[0px] -translate-y-[4px]' : ''}`}></div> 
-              <div class={`bg-pink-500 h-[2px] w-1/2 rounded transform transition-all duration-300 ${nav ? 'w-7 -rotate-[42deg] -translate-x-[5px] -translate-y-[2px]' : 'ml-auto'}`}></div>
+          <div className="relative flex overflow-hidden items-center justify-center w-[50px] h-[50px] transform transition-all duration-200" onClick={handleNav}>
+            <div className="flex flex-col justify-evenly w-[20px] h-[20px] transform transition-all duration-300 origin-center overflow-hidden">
+              <div className={`bg-pink-500 h-[2px] w-7 transform transition-all duration-300 origin-left ${nav ? 'rotate-[42deg] -translate-x-[0px] -translate-y-[4px]' : ''}`}></div> 
+              <div className={`bg-pink-500 h-[2px] w-1/2 rounded transform transition-all duration-300 ${nav ? 'w-7 -rotate-[42deg] -translate-x-[5px] -translate-y-[2px]' : 'ml-auto'}`}></div>
             </div>
           </div>
         </div>
         <div className='lg:hidden w-1/2'>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" onClick={() => handleSearchOpen() }>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16" onClick={() => handleSearchOpen() }>
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
           </svg>
           <Transition.Root show={isSearchOpen} as={Fragment}>
@@ -164,7 +164,7 @@ export default function Navbar() {
                     </button>
                   </div>
                   <div className='text-pink-500 flex items-center'>
-                    <svg xmlns="http://www.w3.org/2000/svg" onClick={() => handleSearchOpen()} width="30" height="30" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" onClick={() => handleSearchOpen()} width="30" height="30" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16">
                       <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                     </svg>
                   </div>
@@ -187,7 +187,7 @@ export default function Navbar() {
             <button className="text-dark-500 dark:text-white rounded-md py-2 px-4 ml-2">
               {/* <FiChevronRight /> */}
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
               </svg>
             </button>
           </div>
@@ -199,7 +199,7 @@ export default function Navbar() {
           <div className='flex flex-row space-x-5'>
             <Menu as="div" className="relative inline-block text-left">
               <Menu.Button>
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-person" viewBox="0 0 16 16">
                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
                 </svg>
                 {/* <Image src={AccountIcon} alt="Lullipop" width={30} height={30}/> */}
@@ -298,10 +298,10 @@ export default function Navbar() {
                       <XMarkIcon className="h-6 w-6 focus-outline-none hover:text-pink-500 transtion duration-300 ease-in-out" aria-hidden="true" />
                     </button> */}
 
-                    <div class="relative flex overflow-hidden items-center justify-center w-[50px] h-[50px] transform transition-all duration-200" onClick={handleNav}>
-                      <div class="group flex flex-col justify-evenly w-[15px] h-[15px] transform transition-all duration-300 origin-center overflow-hidden">
-                        <div class={`group-hover:bg-pink-500 bg-black h-[2px] w-7 transform transition-all duration-300 origin-left ${nav ? 'rotate-[42deg] -translate-x-[0px] -translate-y-[4px]' : ''}`}></div> 
-                        <div class={`group-hover:bg-pink-500 bg-black h-[2px] w-1/2 rounded transform transition-all duration-300 ${nav ? 'w-7 -rotate-[42deg] -translate-x-[4px] -translate-y-[5px]' : 'ml-auto'}`}></div>
+                    <div className="relative flex overflow-hidden items-center justify-center w-[50px] h-[50px] transform transition-all duration-200" onClick={handleNav}>
+                      <div className="group flex flex-col justify-evenly w-[15px] h-[15px] transform transition-all duration-300 origin-center overflow-hidden">
+                        <div className={`group-hover:bg-pink-500 bg-black h-[2px] w-7 transform transition-all duration-300 origin-left ${nav ? 'rotate-[42deg] -translate-x-[0px] -translate-y-[4px]' : ''}`}></div> 
+                        <div className={`group-hover:bg-pink-500 bg-black h-[2px] w-1/2 rounded transform transition-all duration-300 ${nav ? 'w-7 -rotate-[42deg] -translate-x-[4px] -translate-y-[5px]' : 'ml-auto'}`}></div>
                       </div>
                     </div>
                   </div>
@@ -319,7 +319,7 @@ export default function Navbar() {
                       </li>       
                       <li onClick={handleNav} className='focus:outline-none p-2 text-xl mb-1 transition duration-300 ease-in-out hover:bg-pink-500 rounded-lg hover:text-white text-black flex w-full justify-between cursor-pointer items-center'>
                         <Link className='w-full' href='/cart'>Cart</Link>
-                        <div class="py-1 px-3 bg-pink-500 rounded text-white flex items-center justify-center text-xs">{cartQuantity}</div>
+                        <div className="py-1 px-3 bg-pink-500 rounded text-white flex items-center justify-center text-xs">{cartQuantity}</div>
                       </li>        
                     </ul>
                   </Dialog.Panel>
