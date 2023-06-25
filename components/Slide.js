@@ -32,6 +32,7 @@ const Slider = ({heading, message}) => {
         getCollections().then((data) => {
             setData(data);
             console.log("data::", data);
+            setNextValue(data[0]);
         });
         
     }, []);
@@ -141,11 +142,25 @@ const Slider = ({heading, message}) => {
                 })
             }
         </div>
-        <div className="swiper-button-next content-none after:hidden" onClick={goToNextSlide}>
-            {nextValue.node.title} 
+        <div className="flex-col swiper-button-next content-none after:hidden font-semibold text-gray-800 left-[3px]" onClick={goToNextSlide}>
+            {(nextValue && nextValue.node && nextValue.node.title) ?  (<>
+                {nextValue.node.title}
+                <span class="text-xs p-3 relative">
+                    <span class="absolute top-1/2 left-full transform -translate-y-1/2 w-[20px] border-t border-gray-800 dark:border-white"></span>
+                    NEXT
+                </span>
+            </>): ''} 
         </div>
-        <div className="swiper-button-prev content-none after:hidden" onClick={goToPreviousSlide}>
-            {prevValue.node.title}
+        <div className="flex-col swiper-button-prev content-none after:hidden font-semibold text-gray-800 right-[30px]" onClick={goToPreviousSlide}>
+            {(prevValue && prevValue.node && prevValue.node.title) ? (
+            <>
+                {prevValue.node.title}
+                <span class="text-xs p-3 relative">
+                    <span class="absolute top-1/2 right-full transform -translate-y-1/2 w-[20px] border-t border-gray-800 dark:border-white"></span>
+                    PREV
+                </span>
+            </> ): ''}
+            
         </div>
     </Swiper>
     )

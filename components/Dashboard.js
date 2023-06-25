@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getCustomerDetails,getCustomerOrders } from '../lib/Shopify';
-import { AuthChecker } from '../lib/AuthChecker';
-import { redirect } from 'next/navigation'
+// import { AuthChecker } from '../lib/AuthChecker';
+// import { redirect } from 'next/navigation'
 
 export default function Dashboard() {
 
