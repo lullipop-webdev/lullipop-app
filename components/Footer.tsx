@@ -3,11 +3,11 @@ import { useState } from 'react';
 import Link from "next/link";
 
 const navigation = [
-    { name: 'Terms and Conditions', href: '#' },
-    { name: 'Privacy Policy', href: '#' },
-    { name: 'Cookie Policy', href: '#' },
+    { name: 'Terms and Conditions', href: 'termsandconditions' },
+    { name: 'Privacy Policy', href: 'privacypolicy' },
+    { name: 'Cookie Policy', href: 'cookiepolicy' },
     { name: 'Modern Slavery', href: '#' },
-    { name: 'Accessibility Statement', href: '#' }
+    { name: 'Accessibility Statement', href: 'accessibilitystatement' }
   ]
   
   export default function Footer() {
