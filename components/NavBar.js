@@ -4,7 +4,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 
 import { CartContext } from '../context/shopContext';
-import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineMenu, AiOutlineClose, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { HiShoppingBag } from 'react-icons/hi'
 import MiniCart from './MiniChart'
 import { HiSun, HiMoon, HiUserCircle } from 'react-icons/hi';
@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { Menu, Transition, Dialog, Disclosure } from '@headlessui/react'
 import { useAuth } from '@/context/AuthContext';
 
+import { searchAllProducts } from '@/lib/Shopify';
 
 function MoveInactiveIcon(props) {
   return (
@@ -104,6 +105,47 @@ export default function Navbar() {
     determiner = true;
   }
 
+  const [isSearchResultOpen, setIsSearchResultOpen] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchProducts, setSearchProducts] = useState([]);
+  const [searchPages, setSearchPages] = useState([]);
+
+  const handleSearch = async (value) => {
+    setSearchLoading(true);
+    setIsSearchResultOpen(true);
+    const trimmedValue = value.trim();
+    if( trimmedValue.length > 0){
+      const prods = await searchAllProducts(trimmedValue);
+      const products = prods.map((item) => {
+        const { node } = item;
+        const { handle, id, title, priceRange, images } = node;
+        const { minVariantPrice } = priceRange;
+        const { url, altText } = images.edges[0].node;
+      
+        return {
+          id: id.split('/').pop(),
+          name: title,
+          price: parseFloat(minVariantPrice.amount),
+          href: `/products/${handle}`,
+          picture: url,
+          pictureAlt: altText || "Picture description",
+        };
+      });
+      setSearchProducts(products);
+      console.log(products, "products");
+      setSearchLoading(false);
+    } else {
+      setIsSearchResultOpen(false);
+    }
+  }
+
+  const handleKeyUp = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch(event.target.value);
+    }
+  };
+
+
   return (
     <div
       style={{backgroundColor: (determiner) ? `transparent` : `none`, position: (determiner) ? `fixed` : `static` }}
@@ -175,21 +217,101 @@ export default function Navbar() {
          
         </div>
         <div className='items-left p-4 w-1/2 hidden lg:flex'>
-          <div className="border border-pink-500 rounded-full p-2 flex items-center">
+          <div className="border border-pink-500 rounded-full p-2 flex items-center relative">
             <input
+              id='searchInput'
               type="text"
               className="flex-grow border-none outline-none text-lg px-2 text-dark-500 dark:text-white"
               style={{
                 backgroundColor: 'transparent'
               }}
               placeholder="Search"
+              onKeyUp={handleKeyUp}
             />
-            <button className="text-dark-500 dark:text-white rounded-md py-2 px-4 ml-2">
+            <button className="text-dark-500 dark:text-white rounded-md py-2 px-4 ml-2" onClick={() => handleSearch(document.getElementById('searchInput').value)}>
               {/* <FiChevronRight /> */}
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                 <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
               </svg>
             </button>
+            
+            <Transition show={isSearchResultOpen}>
+              <Dialog as="div" onClose={() => setIsSearchResultOpen(false)} className=''>
+                <div style={{ maxHeight: isSearchResultOpen ? '400px' : '0' }} className='absolute h-auto shadow drop-shadow-2xl transition duration-300 bg-white top-0 mt-20 z-40 w-1/4 left-1/2 transform -translate-x-[95%] translate-y-[20px] rounded max-h-[400px] overflow-y-auto'>
+                  <Transition.Child as={Fragment}>
+                    <Dialog.Panel>
+                      <div className='w-full'>
+                        {
+                          searchLoading && (
+                            <div className='flex justify-center py-4 text-pink-500'>
+                              <AiOutlineLoading3Quarters className='animate-spin' />
+                            </div>
+                          )
+                        }
+                        {
+                          !searchLoading && (
+                            <ul className="grid grid-rows-auto gap-4 py-4">
+                              {
+                                searchProducts.length === 0 && searchPages.length === 0 && (
+                                  <li className='mx-4 text-pink-500'>No result found</li>
+                                )
+                              }
+
+                              {
+                                searchProducts.length > 0 && (
+                                  <>
+                                    <li className='mx-4 border-b text-pink-500'>Products</li>
+                                    {
+                                      searchProducts.map(product => (
+                                        <li key={product.id} className="col-span-1 group px-4">
+                                          <a href={product.href} className="flex space-x-3">
+                                            <div className="flex-shrink-0 relative h-44 sm:h-auto sm:min-h-full rounded-sm overflow-hidden filter brightness-100 group-hover:brightness-90 transition duration-100">
+                                              <img src={product.picture} alt={product.pictureAlt} className="w-24 object-cover object-center" />
+                                            </div>
+                                            <div className="flex flex-col justify-center">
+                                              <h3 className="text-base text-gray-700 font-semibold">{product.name}</h3>
+                                              <p className="mt-1 text-base text-gray-500 font-medium">{`$${product.price}`}</p>
+                                            </div>
+                                          </a>
+                                        </li>
+                                      ))
+                                    }
+                                  </>
+                                )
+                              }
+                              
+                              {
+                                searchPages.length > 0 && (
+                                  <>
+                                    <li className='mx-4 border-b mt-4 text-pink-500'>Pages</li>
+                                    {
+                                      searchProducts.map(product => (
+                                        <li key={product.id} className="col-span-1 group px-4">
+                                          <a href={product.href} className="flex space-x-3">
+                                            <div className="flex-shrink-0 relative w-1/2 sm:w-2/5 h-44 sm:h-auto sm:min-h-full rounded-sm overflow-hidden filter brightness-100 group-hover:brightness-90 transition duration-100">
+                                              <img src={product.picture} alt={product.pictureAlt} className="w-full h-full object-cover object-center" />
+                                            </div>
+                                            <div className="flex flex-col">
+                                              <h3 className="text-base text-gray-700 font-semibold">{product.name}</h3>
+                                              <p className="mt-1 mb-10 text-base text-gray-500 font-medium">{`$${product.price}`}</p>
+                                            </div>
+
+                                          </a>
+                                        </li>
+                                      ))
+                                    }
+                                  </>
+                                )
+                              }
+                            </ul>
+                          )
+                        }
+                      </div>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
+              </Dialog>
+            </Transition>
           </div>
         </div>
         {/* <div className="h-full flex px-32 min-w-full lg:min-w-[500px] lg:visible sm:invisible">

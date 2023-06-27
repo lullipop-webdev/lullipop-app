@@ -145,8 +145,8 @@ const Slider = ({heading, message}) => {
         <div className="flex-col swiper-button-next content-none after:hidden font-semibold text-gray-800 left-[3px]" onClick={goToNextSlide}>
             {(nextValue && nextValue.node && nextValue.node.title) ?  (<>
                 {nextValue.node.title}
-                <span class="text-xs p-3 relative">
-                    <span class="absolute top-1/2 left-full transform -translate-y-1/2 w-[20px] border-t border-gray-800 dark:border-white"></span>
+                <span className="text-xs p-3 relative">
+                    <span className="absolute top-1/2 left-full transform -translate-y-1/2 w-[20px] border-t border-gray-800 dark:border-white"></span>
                     NEXT
                 </span>
             </>): ''} 
@@ -155,8 +155,8 @@ const Slider = ({heading, message}) => {
             {(prevValue && prevValue.node && prevValue.node.title) ? (
             <>
                 {prevValue.node.title}
-                <span class="text-xs p-3 relative">
-                    <span class="absolute top-1/2 right-full transform -translate-y-1/2 w-[20px] border-t border-gray-800 dark:border-white"></span>
+                <span className="text-xs p-3 relative">
+                    <span className="absolute top-1/2 right-full transform -translate-y-1/2 w-[20px] border-t border-gray-800 dark:border-white"></span>
                     PREV
                 </span>
             </> ): ''}
