@@ -110,6 +110,17 @@ export default function Navbar() {
   const [searchProducts, setSearchProducts] = useState([]);
   const [searchPages, setSearchPages] = useState([]);
 
+  const fetchPages = async (keyword) => {
+    const storePagesData = await fetch('/api/storePagesData')
+    const data = await storePagesData.json();
+
+    var filteredData = data.filter(function(item) {
+      return item.name.toLowerCase().includes(keyword.toLowerCase());
+    });
+
+    return filteredData;
+  }
+
   const handleSearch = async (value) => {
     setSearchLoading(true);
     setIsSearchResultOpen(true);
@@ -131,8 +142,10 @@ export default function Navbar() {
           pictureAlt: altText || "Picture description",
         };
       });
+
+      const pages = await fetchPages(trimmedValue);
+      setSearchPages(pages);
       setSearchProducts(products);
-      console.log(products, "products");
       setSearchLoading(false);
     } else {
       setIsSearchResultOpen(false);
@@ -221,14 +234,14 @@ export default function Navbar() {
             <input
               id='searchInput'
               type="text"
-              className="flex-grow border-none outline-none text-lg px-2 text-dark-500 dark:text-white"
+              className="flex-grow border-none outline-none text-lg px-2 text-pink-500"
               style={{
                 backgroundColor: 'transparent'
               }}
               placeholder="Search"
               onKeyUp={handleKeyUp}
             />
-            <button className="text-dark-500 dark:text-white rounded-md py-2 px-4 ml-2" onClick={() => handleSearch(document.getElementById('searchInput').value)}>
+            <button className="text-pink-500 rounded-md py-2 px-4 ml-2" onClick={() => handleSearch(document.getElementById('searchInput').value)}>
               {/* <FiChevronRight /> */}
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                 <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
@@ -283,19 +296,14 @@ export default function Navbar() {
                               {
                                 searchPages.length > 0 && (
                                   <>
-                                    <li className='mx-4 border-b mt-4 text-pink-500'>Pages</li>
+                                    <li className='mx-4 border-b text-pink-500'>Pages</li>
                                     {
-                                      searchProducts.map(product => (
-                                        <li key={product.id} className="col-span-1 group px-4">
-                                          <a href={product.href} className="flex space-x-3">
-                                            <div className="flex-shrink-0 relative w-1/2 sm:w-2/5 h-44 sm:h-auto sm:min-h-full rounded-sm overflow-hidden filter brightness-100 group-hover:brightness-90 transition duration-100">
-                                              <img src={product.picture} alt={product.pictureAlt} className="w-full h-full object-cover object-center" />
-                                            </div>
+                                      searchPages.map((page, i) => (
+                                        <li key={i} className="col-span-1 group px-4">
+                                          <a href={page.link} className="flex space-x-3">
                                             <div className="flex flex-col">
-                                              <h3 className="text-base text-gray-700 font-semibold">{product.name}</h3>
-                                              <p className="mt-1 mb-10 text-base text-gray-500 font-medium">{`$${product.price}`}</p>
+                                              <h3 className="text-base text-gray-700 font-semibold">{page.name}</h3>
                                             </div>
-
                                           </a>
                                         </li>
                                       ))
