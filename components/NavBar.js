@@ -109,7 +109,7 @@ export default function Navbar() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchProducts, setSearchProducts] = useState([]);
   const [searchPages, setSearchPages] = useState([]);
-
+  const [searchValue, setSearchValue] = useState("");
   const fetchPages = async (keyword) => {
     const storePagesData = await fetch('/api/storePagesData')
     const data = await storePagesData.json();
@@ -126,6 +126,7 @@ export default function Navbar() {
     setIsSearchResultOpen(true);
     const trimmedValue = value.trim();
     if( trimmedValue.length > 0){
+      setSearchValue(trimmedValue);
       const prods = await searchAllProducts(trimmedValue);
       const products = prods.map((item) => {
         const { node } = item;
@@ -266,7 +267,10 @@ export default function Navbar() {
                             <ul className="grid grid-rows-auto gap-4 py-4">
                               {
                                 searchProducts.length === 0 && searchPages.length === 0 && (
-                                  <li className='mx-4 text-pink-500'>No result found</li>
+                                  <Link href={`/search?keyword=${searchValue}`} onClick={() => setIsSearchResultOpen(false)}>
+                                    <li className='mx-4 text-pink-500'>Search for "{searchValue}"</li>
+                                  </Link>
+                                 
                                 )
                               }
 
@@ -289,6 +293,9 @@ export default function Navbar() {
                                         </li>
                                       ))
                                     }
+                                    <Link href={`/search?keyword=${searchValue}`} onClick={() => setIsSearchResultOpen(false)}>
+                                      <li className='mx-4 text-pink-500'>Search for "{searchValue}"</li>
+                                    </Link>
                                   </>
                                 )
                               }
