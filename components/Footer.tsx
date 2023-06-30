@@ -30,7 +30,7 @@ const navigation = [
             {
               navigation.map((item, i) => (
                 <div key={i} className={`px-8 py-2 text-xs ${(i+1 < navigation.length) ? 'border-r' : ''} border-gray-500 dark:border-white`}>
-                  <Link href={item.href} className="text-gray dark:text-white hover:text-white">
+                  <Link href={`/${item.href}`} replace className="text-gray dark:text-white hover:text-white">
                     {item.name}
                   </Link>
                 </div>
