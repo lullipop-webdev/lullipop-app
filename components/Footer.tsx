@@ -6,7 +6,7 @@ const navigation = [
     { name: 'Terms and Conditions', href: 'termsandconditions' },
     { name: 'Privacy Policy', href: 'privacypolicy' },
     { name: 'Cookie Policy', href: 'cookiepolicy' },
-    { name: 'Modern Slavery', href: '#' },
+    { name: 'Modern Slavery', href: 'modernslavery' },
     { name: 'Accessibility Statement', href: 'accessibilitystatement' }
   ]
   

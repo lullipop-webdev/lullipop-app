@@ -6,6 +6,7 @@ export default function handler(req, res) {
         { name: 'Privacy Policy', link: 'privacypolicy' },
         { name: 'Terms and Conditions', link: 'termsandconditions' },
         { name: 'Return Policy', link: 'returnpolicy' },
+        { name: 'Modern Slavery', link: 'modernslavery' },
     ];
 
     res.status(200).json(pages)
