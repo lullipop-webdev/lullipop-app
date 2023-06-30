@@ -29,7 +29,7 @@ const ReviewList = ({}) => {
   ];
 
   return (
-    <div className="w-full mx-auto bg-gray-100 py-16 text-dark dark:text-white">
+    <div className="w-full mx-auto bg-gray-100 dark:bg-gray-500 py-16 text-dark dark:text-black">
       <div className='container mx-auto px-6'>
         {reviews.map((review, i) => (
           <div key={review.name} className={`border-gray-400 ${ i===(reviews.length-1) ? '' : 'mb-8 border-b-4' }`}>
