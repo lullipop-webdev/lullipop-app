@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react'
-import { createCheckout, updateCheckout, getCustomerDetails, getCustomerDefaultAddress } from '../lib/Shopify'
+import { createCheckout, updateCheckout, getCustomerDetails, getCustomerDefaultAddress, createCart } from '../lib/Shopify'
 
 const CartContext = createContext()
 
@@ -65,18 +65,26 @@ export default function ShopProvider({ children }) {
 
   }, [])
 
-  async function addToCart(addedItem) {
+  async function addToCart(addedItem, qty) {
+    console.log(addedItem);
+
     const newItem = {...addedItem}
     setCartOpen(true)
 
     if (cart.length === 0) {
       setCart([newItem])
 
-      const checkout = await createCheckout(newItem.id, 1, data, defaultAddress)
+      const checkout = await createCheckout(newItem.id, qty, data, defaultAddress)
       setCheckoutId(checkout.id)
       setCheckoutUrl(checkout.webUrl)
-
+      console.log("checkout:: ", checkout);
       localStorage.setItem("checkout_id", JSON.stringify([newItem, checkout]))
+
+      // user not login
+      const accessToken = localStorage.getItem('accessToken');
+      if(accessToken == null){
+        createCartAndGetCheckoutURL();
+      }
     } else {
       let newCart = []
       let added = false
@@ -96,6 +104,7 @@ export default function ShopProvider({ children }) {
       setCart(newCart)
       const newCheckout = await updateCheckout(checkoutId, newCart)
       localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
+      createCartAndGetCheckoutURL();
     }
   }
 
@@ -113,6 +122,7 @@ export default function ShopProvider({ children }) {
     if (cart.length === 1) {
       setCartOpen(false)
     }
+    createCartAndGetCheckoutURL();
   }
 
   async function incrementCartItem(item) {
@@ -131,6 +141,7 @@ export default function ShopProvider({ children }) {
 
     localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
     setCartLoading(false)
+    createCartAndGetCheckoutURL();
   }
 
   async function decrementCartItem(item) {
@@ -153,6 +164,7 @@ export default function ShopProvider({ children }) {
       localStorage.setItem("checkout_id", JSON.stringify([newCart, newCheckout]))
     }
     setCartLoading(false)
+    createCartAndGetCheckoutURL();
   }
 
   async function clearCart() {
@@ -166,6 +178,39 @@ export default function ShopProvider({ children }) {
 
   }
 
+  async function createCartAndGetCheckoutURL() {
+    if(localStorage.checkout_id == undefined){
+      return;
+    }
+    const cartObject = JSON.parse(localStorage.checkout_id)
+    let items = cartObject[0];
+    if(items.length == 0){
+      setCheckoutUrl("");
+      return;
+    }
+
+    if (Array.isArray(items)) {
+      items = items.map((item) => {
+        return {
+          merchandiseId: item.id,
+          quantity: item.variantQuantity,
+        };
+      });
+    } else {
+      // Handle the case when items is not an array
+      items = [{
+        merchandiseId: items.id,
+        quantity: items.variantQuantity
+      }]
+    }    
+
+    let accessToken = localStorage.getItem('accessToken');
+    // user not login 
+    if(!accessToken && items.length > 0){
+      const data = await createCart(JSON.stringify(items).replace(/"([^"]+)":/g, (match, p1) => `${p1}:`));
+      setCheckoutUrl(data.checkoutUrl);
+    }
+  }
 
   return (
     <CartContext.Provider value={{
@@ -178,7 +223,8 @@ export default function ShopProvider({ children }) {
       clearCart,
       cartLoading,
       incrementCartItem,
-      decrementCartItem
+      decrementCartItem,
+      createCartAndGetCheckoutURL,
     }}>
       {children}
     </CartContext.Provider>

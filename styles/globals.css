@@ -25,4 +25,20 @@ html, body {
     margin: 0;
 }
 
+.swiper-button-next, .swiper-button-prev {
+  color: unset !important;
+}
 
+:root {
+  --swiper-navigation-size: 50px !important;
+}
+
+.swiper-button-prev {
+  left: 50px !important;
+  width: 100px !important;
+}
+
+.swiper-button-next {
+  right: 50px !important;
+  width: 100px !important;
+}

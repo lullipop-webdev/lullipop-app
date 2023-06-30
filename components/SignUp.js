@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { customerCreate } from "../lib/Shopify";
 import Modal from "./Modal";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SignUp() {
     // const [values, setValues] = useState({
@@ -12,9 +13,10 @@ export default function SignUp() {
     //     const { name, value } = event.target;
     //     setValues({ ...values, [name]: value });
     // };
-
+    const {login} = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(false);
 
     const [firstName, setFirstName] = useState('');
@@ -33,20 +35,54 @@ export default function SignUp() {
     const handleOnSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await customerCreate(email, password, firstName, lastName, marketing);
-            console.log(response);
-            if(response) {
-                if(response.data.customerCreate.customer !== null) {
-                    setIsOpen(true);
-                    setError(false);
-                }    
-
-                if(response.data.customerCreate.customerUserErrors) {
-                    setError(response.data.customerCreate.customerUserErrors[0].message)
-                } 
-                
+            const regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/
+            if(password === '' || email === '' || firstName === '') {
+                setError("Required fields are empty");
+            } else if(!regexp.test(password)) {
+                setError("Password must contain at least one numeric character, one capital letter and a minimum of 8 characters.");
+            } else if(confirmPassword !== password) {
+                setError("Confirm password does not match password field");
+            } else {
+                const response = await customerCreate(email, password, firstName, lastName, marketing);
+                console.log(response);
+                if(response) {
+                    if(response.data.customerCreate.customer !== null) {
+                        setIsOpen(true);
+                        setError(false);
+                        setTimeout(() => {
+                            login(email, password)
+                        }, "3000");
+                        
+                    }    
+    
+                    if(response.data.customerCreate.customerUserErrors) {
+                        setError(response.data.customerCreate.customerUserErrors[0].message)
+                    } 
+                    
+                }
             }
 
+            // if(confirmPassword === password) {
+            //     const response = await customerCreate(email, password, firstName, lastName, marketing);
+            //     console.log(response);
+            //     if(response) {
+            //         if(response.data.customerCreate.customer !== null) {
+            //             setIsOpen(true);
+            //             setError(false);
+            //             setTimeout(() => {
+            //                 login(email, password)
+            //             }, "3000");
+                        
+            //         }    
+    
+            //         if(response.data.customerCreate.customerUserErrors) {
+            //             setError(response.data.customerCreate.customerUserErrors[0].message)
+            //         } 
+                    
+            //     }
+            // } else {
+            //     setError("Password and Confirm Password fields do not match.")
+            // }
         } catch (error) {
             console.log(error);
         }
@@ -84,6 +120,14 @@ export default function SignUp() {
                     </label>
                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" name="password" onChange={e => setPassword(e.target.value)} />
                     <p className="text-gray-600 text-xs italic">Make it as long and as crazy as youd like</p>
+                    </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-6">
+                    <div className="w-full px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" forhtml="grid-password">
+                        Confirm Password
+                    </label>
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-confirm-password" type="password" placeholder="******************" name="confirm_password" onChange={e => setConfirmPassword(e.target.value)} />
                     </div>
                 </div>
                 <p className="text-red-500 text-xs italic">{error}</p>

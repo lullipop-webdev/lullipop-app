@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getCollections } from '../lib/Shopify';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import {Lingerie, Dress} from './SvgIcons';
 import 'swiper/css'
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -10,8 +11,20 @@ import Link from 'next/link';
 import { GiAmpleDress } from 'react-icons/gi';
 import { CiShirt } from 'react-icons/ci';
 
-
 const Slider = ({heading, message}) => {
+    const swiperRef = useRef(null);
+
+    const goToNextSlide = () => {
+        if (swiperRef.current && swiperRef.current.swiper) {
+            swiperRef.current.swiper.slideNext();
+        }
+    };
+    
+    const goToPreviousSlide = () => {
+        if (swiperRef.current && swiperRef.current.swiper) {
+            swiperRef.current.swiper.slidePrev();
+        }
+    };
 
     const [data, setData] = useState([]);
     const slider = [];
@@ -19,26 +32,43 @@ const Slider = ({heading, message}) => {
         getCollections().then((data) => {
             setData(data);
             console.log("data::", data);
+            setNextValue(data[0]);
         });
         
     }, []);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [nextValue, setNextValue] = useState("NEXT");
+    const [prevValue, setPrevValue] = useState("PREV");
 
     return (
         <Swiper
             loop={true}
             slidesPerView={1}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            onSlideChange={(swiper) => {
+                swiperRef.current = swiper;
+                const currentIndex = swiper.realIndex;
+              
+                setActiveIndex(currentIndex);
+              
+                const prevIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : data.length - 1;
+                const nextIndex = currentIndex + 1 < data.length ? currentIndex + 1 : 0;
+              
+                setPrevValue(data[prevIndex]);
+                setNextValue(data[nextIndex]);
+              
+                console.log('Current Index:', currentIndex);
+                console.log('Previous Value:', data[prevIndex]);
+                console.log('Next Value:', data[nextIndex]);
+            }}
             className="h-full w-full"
             keyboard={{
                 enabled: true,
             }}
-            // autoplay={{
-            //     delay: 5000,
-            //     disableOnInteraction: false,
-            // }}
             modules={[Autoplay, Navigation, Keyboard]}
-            navigation={true}
+            navigation={{
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            }}
         >
         <div className="h-full w-full">
             {
@@ -49,7 +79,7 @@ const Slider = ({heading, message}) => {
                             <Image src={d.node.image.url} alt={(d.node.image.altText != null) ? d.node.image.altText : d.node.title} className="w-full h-screen hidden lg:block object-cover" width={200} height={160} sizes="(max-width: 768px) 100vh, " />
                             <Image src={d.node.image.url} alt={(d.node.image.altText != null) ? d.node.image.altText : d.node.title} className="hidden sm:block lg:hidden w-full h-screen object-cover" width={200} height={160} sizes="(max-width: 768px) 100vh, " />
                             <Image src={d.node.image.url} alt={(d.node.image.altText != null) ? d.node.image.altText : d.node.title} className="sm:hidden w-full h-screen object-cover" width={200} height={160} sizes="(max-width: 768px) 100vh, " />
-                            <div className="absolute inset-0 bg-black opacity-20"></div>
+                            <div className="absolute inset-0 dark:bg-black bg-gradient-to-t from-white to-40% dark:opacity-20 opacity-50"></div>
                             
                             <div className='absolute mt-[10rem] z-[10] items-center justify-between w-full'>
                                 <div className='w-80'></div>
@@ -84,19 +114,19 @@ const Slider = ({heading, message}) => {
                                         </div>
                                     </div>
                                     <div className='w-1/2 text-center pt-16 flex justify-center relative'>
-                                        <div className='flex left-0 w-3/5 relative hidden'>
-                                            <span className="absolute uppercase text-dark-500 dark:text-white text-sm font-semibold" style={{top: '-25px'}}>Featured Items</span>
+                                        <div className='flex left-0 w-3/5 relative'>
+                                            <span className="absolute uppercase text-dark-500 dark:text-white text-sm font-semibold" style={{top: '-25px'}}>Featured Item</span>
                                             <div className='w-full flex'>
                                                 <Link href="/products" className='pr-2 pl-4'>
-                                                    <CiShirt className='text-pink-400 text-5xl' />
+                                                    <Lingerie className="text-pink-400 text-5xl"/>
                                                 </Link>
                                                 <Link href="/products" className='pl-2 pr-4'>
-                                                    <GiAmpleDress className='text-pink-400 text-5xl' />
+                                                    <Dress className='text-pink-400 text-5xl' />
                                                 </Link>
                                             </div>
                                         </div>
                                         <Link href={{ pathname: '/shop', query: { q: d.node.handle } }} className='absolute'>
-                                            <button className='px-8 py-2 border-2 border-pink-400 rounded-3xl text-white'>View Collection</button>
+                                            <button className='relative px-8 py-2 border-2 border-pink-400 rounded-3xl dark:text-white transition-all duration-300 hover:bg-pink-400'>View Collection</button>
                                         </Link>
                                     </div>
                                     <div className='w-1/4 hidden xl:block lg:block'>
@@ -111,6 +141,26 @@ const Slider = ({heading, message}) => {
                     </SwiperSlide>
                 })
             }
+        </div>
+        <div className="flex-col swiper-button-next content-none after:hidden font-semibold text-gray-800 left-[3px]" onClick={goToNextSlide}>
+            {(nextValue && nextValue.node && nextValue.node.title) ?  (<>
+                {nextValue.node.title}
+                <span className="text-xs p-3 relative">
+                    <span className="absolute top-1/2 left-full transform -translate-y-1/2 w-[20px] border-t border-gray-800 dark:border-white"></span>
+                    NEXT
+                </span>
+            </>): ''} 
+        </div>
+        <div className="flex-col swiper-button-prev content-none after:hidden font-semibold text-gray-800 right-[30px]" onClick={goToPreviousSlide}>
+            {(prevValue && prevValue.node && prevValue.node.title) ? (
+            <>
+                {prevValue.node.title}
+                <span className="text-xs p-3 relative">
+                    <span className="absolute top-1/2 right-full transform -translate-y-1/2 w-[20px] border-t border-gray-800 dark:border-white"></span>
+                    PREV
+                </span>
+            </> ): ''}
+            
         </div>
     </Swiper>
     )

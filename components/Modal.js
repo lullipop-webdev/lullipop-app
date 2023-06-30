@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function Modal({open, closeModal, message, heading, linkNeeded}) {
-  let signupMessage = <p className="text-sm text-gray-500">You have successfully signed up for a User Account! You can try logging in to your account <span className='underline text-pink-400'><Link href={`/login`}>here.</Link></span></p>
+  let signupMessage = <p className="text-sm text-gray-500">You have successfully signed up for a User Account! Were redirecting you to your dashboard.</p>
   return (
     <>
         <Dialog open={open} as="div" className="relative z-10" onClose={closeModal}>
@@ -27,7 +27,7 @@ export default function Modal({open, closeModal, message, heading, linkNeeded}) 
                     </p>
                   </div>
 
-                  <div className="mt-4">
+                  {/* <div className="mt-4">
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -35,7 +35,7 @@ export default function Modal({open, closeModal, message, heading, linkNeeded}) 
                     >
                       Got it, thanks!
                     </button>
-                  </div>
+                  </div> */}
                 </Dialog.Panel>
             </div>
           </div>

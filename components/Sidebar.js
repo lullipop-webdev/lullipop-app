@@ -2,23 +2,21 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useRouter, push } from "next/router";
 import React, { useState, useMemo } from "react";
-import {
-    MdOutlineSpaceDashboard,
-    MdOutlineAnalytics,
-    MdOutlineIntegrationInstructions,
-    MdOutlineMoreHoriz,
-    MdOutlineSettings,
-    MdOutlineLogout,
-} from "react-icons/md";
-
+import AccountIcon from '../assets/customer_acc_icons-03.png';
+import AccountDetailsIcon from '../assets/customer_acc_icons-03.png'
+import MyOrders from '../assets/customer_acc_icons-02.png';
+import MyDelAddresses from '../assets/customer_acc_icons-04.png';
+import Home from '../assets/customer_acc_icons-05.png';
 import { BsFillArrowLeftCircleFill } from "react-icons/bs"
 import {useAuth} from '../context/AuthContext'
+import Image from "next/image";
 
 const menuItems = [
-  { id: 1, label: "Home", link: "/" },
-  { id: 2, label: "Order History", link: "/orderhistory" },
-  { id: 3, label: "Account Settings", link: "/accountsettings" },
-  { id: 4, label: "Delivery Addresses", link: "/deliveryaddress" },
+  { id: 1, label: "Home", link: "/", icon: Home },
+  { id: 2, label: "Order History", link: "/orderhistory", icon: MyOrders  },
+  { id: 3, label: "Account Settings", link: "/accountsettings", icon: AccountDetailsIcon },
+  { id: 4, label: "Delivery Addresses", link: "/deliveryaddress", icon: MyDelAddresses },
+  // { id: 5, label: "Wishlist", link: "/wishlist" },
 ];
 
 const Sidebar = ({customer}) => {
@@ -35,7 +33,7 @@ const Sidebar = ({customer}) => {
   );
 
   const wrapperClasses = classNames(
-    "h-screen px-4 pt-8 pb-4 bg-light flex justify-between flex-col",
+    "h-screen px-2 pt-8 pb-4 bg-light flex justify-between flex-col",
     {
       ["w-80"]: !toggleCollapse,
       ["w-20"]: toggleCollapse,
@@ -75,7 +73,7 @@ const Sidebar = ({customer}) => {
     >
       <div className="flex flex-col">
         <span
-            className={classNames("mt-2 font-medium text-lg font-Montserrat", {
+            className={classNames("mt-2 font-medium text-lg", {
                 hidden: toggleCollapse,
             })}
             >
@@ -116,13 +114,13 @@ const Sidebar = ({customer}) => {
             const classes = getNavItemClasses(menu);
             return (
               <div key={menu.id} className={classes}>
-                <Link href={menu.link}>
+                <Link  href={menu.link}>
                   <span className="flex py-4 px-3 items-center w-full h-full">
-                    
+                    <Image src={Icon} alt="" width={30} height={30}></Image>
                     {!toggleCollapse && (
                       <span
                         className={classNames(
-                          "text-md font-medium text-text-light"
+                          "text-md font-medium text-text-light ml-3"
                         )}
                       >
                         {menu.label}

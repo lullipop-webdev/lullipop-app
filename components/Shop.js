@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import ProductCard from "./ProductCard";
 import { getProductsInCollection } from "@/lib/Shopify"
+import Link from "next/link";
 
 const Shop = ({ categories }) => {
     console.log("categories::", categories);
@@ -30,7 +31,7 @@ const Shop = ({ categories }) => {
                         categories?.map((category, i) => {
                             return (
                                 <li key={i} className="mb-1" onClick={() => handleCategoryClick(category)}>
-                                    <a className="text-gray-700 hover:text-gray-900 dark:text-gray-500 dark:hover:text-white text-2xl" href="#">{category.node.title}</a>
+                                    <Link className="text-gray-700 hover:text-gray-900 dark:text-gray-500 dark:hover:text-white text-2xl" href="#">{category.node.title}</Link>
                                 </li>
                             )
                         })
