@@ -188,7 +188,7 @@ export default function Navbar() {
           </div>
         </div>
         <div className='lg:hidden w-1/2'>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16" onClick={() => handleSearchOpen() }>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fillRule={'currentColor'} fill="currentColor" className="bi bi-search" viewBox="0 0 16 16" onClick={() => handleSearchOpen() }>
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
           </svg>
           <Transition.Root show={isSearchOpen} as={Fragment}>
@@ -206,16 +206,18 @@ export default function Navbar() {
                   <div className="border border-pink-500 rounded-full w-full p-2 flex items-center">
                     <input
                       type="text"
+                      id="searchInput2"
                       className="flex-grow border-none outline-none text-lg px-2 text-dark-500 dark:text-white"
                       style={{
                         backgroundColor: 'transparent'
                       }}
                       placeholder="Search"
+                      onKeyUp={handleKeyUp}
                     />
-                    <button className="text-dark-500 dark:text-white rounded-md py-2 px-4 ml-2">
+                    <button className="text-dark-500 dark:text-white rounded-md py-2 px-4 ml-2" onClick={() => handleSearch(document.getElementById('searchInput2').value)}>
                       {/* <FiChevronRight /> */}
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                        <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
                       </svg>
                     </button>
                   </div>
@@ -244,14 +246,14 @@ export default function Navbar() {
             />
             <button className="text-pink-500 rounded-md py-2 px-4 ml-2" onClick={() => handleSearch(document.getElementById('searchInput').value)}>
               {/* <FiChevronRight /> */}
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fillRule="inherit" viewBox="0 0 16 16">
                 <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
               </svg>
             </button>
             
             <Transition show={isSearchResultOpen}>
               <Dialog as="div" onClose={() => setIsSearchResultOpen(false)} className=''>
-                <div style={{ maxHeight: isSearchResultOpen ? '400px' : '0' }} className='absolute h-auto shadow drop-shadow-2xl transition duration-300 bg-white top-0 mt-20 z-40 w-1/4 left-1/2 transform -translate-x-[95%] translate-y-[20px] rounded max-h-[400px] overflow-y-auto'>
+                <div style={{ maxHeight: isSearchResultOpen ? '400px' : '0' }} className='absolute h-auto shadow drop-shadow-2xl transition duration-300 bg-white top-0 mt-20 z-40 xl:w-1/4 lg:w-1/3 w-[95%] left-0 ml-4 lg:left-1/2 transform lg:-translate-x-[95%] translate-y-[20px] rounded max-h-[400px] overflow-y-auto'>
                   <Transition.Child as={Fragment}>
                     <Dialog.Panel>
                       <div className='w-full'>
@@ -267,7 +269,7 @@ export default function Navbar() {
                             <ul className="grid grid-rows-auto gap-4 py-4">
                               {
                                 searchProducts.length === 0 && searchPages.length === 0 && (
-                                  <Link href={`/search?keyword=${searchValue}`} onClick={() => setIsSearchResultOpen(false)}>
+                                  <Link href={`/search?keyword=${searchValue}`} onClick={() => {setIsSearchResultOpen(false); handleSearchOpen();}}>
                                     <li className='mx-4 text-pink-500'>Search for "{searchValue}"</li>
                                   </Link>
                                  
@@ -293,7 +295,7 @@ export default function Navbar() {
                                         </li>
                                       ))
                                     }
-                                    <Link href={`/search?keyword=${searchValue}`} onClick={() => setIsSearchResultOpen(false)}>
+                                    <Link href={`/search?keyword=${searchValue}`} onClick={() => {setIsSearchResultOpen(false); handleSearchOpen();}}>
                                       <li className='mx-4 text-pink-500'>Search for "{searchValue}"</li>
                                     </Link>
                                   </>
