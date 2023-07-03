@@ -167,7 +167,7 @@ export default function Navbar() {
     >
       <div className='flex justify-between items-center p-4 text-pink-400 xs:justify-start'>
         <div className='flex items-center p-4'>
-          <Link href='/' className='mr-4'>
+          <Link href='/' className='lg:mr-4'>
             
             <Image src={LulliLogo} alt="Lullipop" width={160} height={90}/>
           </Link>
@@ -203,7 +203,7 @@ export default function Navbar() {
             >
               <div className={`absolute p-4 w-full bg-white dark:bg-black top-0 left-0 z-10`}>
                 <div className='p-4 h-[90px] flex justify-between'>
-                  <div className="border border-pink-500 rounded-full w-full p-2 flex items-center">
+                  <div className="border border-pink-500 rounded-full w-full p-2 flex items-center relative">
                     <input
                       type="text"
                       id="searchInput2"
@@ -214,7 +214,7 @@ export default function Navbar() {
                       placeholder="Search"
                       onKeyUp={handleKeyUp}
                     />
-                    <button className="text-dark-500 dark:text-white rounded-md py-2 px-4 ml-2" onClick={() => handleSearch(document.getElementById('searchInput2').value)}>
+                    <button className="text-dark-500 dark:text-white rounded-md py-2 px-4 ml-2 absolute top-3 right-0" onClick={() => handleSearch(document.getElementById('searchInput2').value)}>
                       {/* <FiChevronRight /> */}
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>

@@ -21,7 +21,7 @@ const navigation = [
       determiner = true;
     }
 
-    const opaqueLinks = "fixed left-0 bottom-0 w-full z-10"
+    const opaqueLinks = "fixed lg:left-0 bottom-0 w-full z-10"
     return (
       <footer style={{backgroundColor: (determiner) ? `${color}` : `none`}} className={`bg-white dark:bg-black ${determiner&&opaqueLinks} uppercase pb-3`}>
         <div className="mx-auto px-4 overflow-hidden sm:px-6 lg:px-8">
@@ -29,7 +29,7 @@ const navigation = [
             <p className="text-xs text-center text-gray dark:text-white pr-6">&copy; 1939-2023 Lullipop Ltd. All Rights Reserved</p>
             {
               navigation.map((item, i) => (
-                <div key={i} className={`px-8 py-2 text-xs ${(i+1 < navigation.length) ? 'border-r' : ''} border-gray-500 dark:border-white`}>
+                <div key={i} className={`lg:px-8 lg:py-2 px-2 text-xs ${(i+1 < navigation.length) ? 'border-r' : ''} border-gray-500 dark:border-white`}>
                   <Link href={`/${item.href}`} replace className="text-gray dark:text-white hover:text-white">
                     {item.name}
                   </Link>

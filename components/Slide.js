@@ -81,7 +81,7 @@ const Slider = ({heading, message}) => {
                             <Image src={d.node.image.url} alt={(d.node.image.altText != null) ? d.node.image.altText : d.node.title} className="sm:hidden w-full h-screen object-cover" width={200} height={160} sizes="(max-width: 768px) 100vh, " />
                             <div className="absolute inset-0 dark:bg-black bg-gradient-to-t from-white to-40% dark:opacity-20 opacity-50"></div>
                             
-                            <div className='absolute mt-[10rem] z-[10] items-center justify-between w-full'>
+                            <div className='absolute lg:mt-[10rem] z-[10] items-center justify-between w-full'>
                                 <div className='w-80'></div>
                                 <div className='z-[2]'>
                                     <div className="flex justify-center">
