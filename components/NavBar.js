@@ -270,7 +270,7 @@ export default function Navbar() {
                               {
                                 searchProducts.length === 0 && searchPages.length === 0 && (
                                   <Link href={`/search?keyword=${searchValue}`} onClick={() => {setIsSearchResultOpen(false); handleSearchOpen();}}>
-                                    <li className='mx-4 text-pink-500'>Search for "{searchValue}"</li>
+                                    <li className='mx-4 text-pink-500'>Search for {`"${searchValue}"`}</li>
                                   </Link>
                                  
                                 )
@@ -296,7 +296,7 @@ export default function Navbar() {
                                       ))
                                     }
                                     <Link href={`/search?keyword=${searchValue}`} onClick={() => {setIsSearchResultOpen(false); handleSearchOpen();}}>
-                                      <li className='mx-4 text-pink-500'>Search for "{searchValue}"</li>
+                                      <li className='mx-4 text-pink-500'>Search for {`"${searchValue}"`}</li>
                                     </Link>
                                   </>
                                 )
