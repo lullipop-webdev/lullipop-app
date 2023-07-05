@@ -1,9 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { searchAllProducts } from '@/lib/Shopify';
-import ProductList from "@/components/ProductList";
 import ProductCard from "@/components/ProductCard";
-export default function search() {
+export default function Search() {
   const router = useRouter();
   const params = router.query.keyword;
 
@@ -35,7 +34,7 @@ export default function search() {
 
   return (
     <div className="mx-auto container px-4 py-8">
-      <h1 className="text-5xl border-b-2 border-black dark:border-white">Search results for "<span className='text-pink-500'>{params}</span>"</h1>
+      <h1 className="text-5xl border-b-2 border-black dark:border-white">Search results for {`"`}<span className='text-pink-500'>{params}</span>{`"`}</h1>
 
       {
         searchProducts.length < 1 && searchPages.length < 1 ? (
@@ -48,14 +47,11 @@ export default function search() {
                 searchProducts?.map(product => (
                   <ProductCard key={product.node.id} product={product} />
                 ))
-                  
               }
-
             </div>
           </div>
         )
       }
-
       {/* <h3 className="text-3xl mt-3">Related Search</h3> */}
     </div>
   )
